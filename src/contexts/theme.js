@@ -57,7 +57,7 @@ export function useMuiTheme() {
     palette: {
       isDark,
       type: isDark ? 'dark' : 'light',
-      borderColor: isDark ? '#555' : '#f5f5f5',
+      borderColor: isDark ? '#555' : '#ffa132',
       background: {
         // default: '',
         // paper: '',
