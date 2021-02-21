@@ -1,6 +1,6 @@
 # Staking Frontend
 
-Staking frontend for the Goat Elastic Supply Currency.
+LP Staking frontend for Goatcoin
 
 # Run
 
