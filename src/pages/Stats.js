@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Paper } from '@material-ui/core';
-import { BORDER_RADIUS } from 'config';
-import { toFixed, isZero } from 'utils/big-number';
-import { useStats } from 'contexts/stats';
+import { BORDER_RADIUS } from '../config';
+import { toFixed, isZero } from '../utils/big-number';
+import { useStats } from '../contexts/stats';
 
 const useStyles = makeStyles(theme => ({
   container: {

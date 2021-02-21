@@ -10,9 +10,9 @@ import {
 } from '@material-ui/core';
 import LightIcon from '@material-ui/icons/Brightness1';
 import DarkIcon from '@material-ui/icons/Brightness2';
-import { useTheme } from 'contexts/theme';
-import { useWallet } from 'contexts/wallet';
-import { APP_TITLE } from 'config';
+import { useTheme } from '../contexts/theme';
+import { useWallet } from '../contexts/wallet';
+import { APP_TITLE } from '../config';
 
 const useStyles = makeStyles(theme => ({
   container: {

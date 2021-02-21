@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Dialog } from '@material-ui/core';
 import { Close as Icon } from '@material-ui/icons';
-import { useWallet } from 'contexts/wallet';
-import { NETWORK_NAME } from 'config';
+import { useWallet } from '../contexts/wallet';
+import { NETWORK_NAME } from '../config';
 
 const useStyles = makeStyles(theme => ({
   container: {

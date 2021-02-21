@@ -1,7 +1,7 @@
 import React from 'react';
-import { Big, isZero } from 'utils/big-number';
-import { useWallet } from 'contexts/wallet';
-import * as request from 'utils/request';
+import { Big, isZero } from '../utils/big-number';
+import { useWallet } from '../contexts/wallet';
+import * as request from '../utils/request';
 
 const CAKE_APY = Big('144');
 
@@ -15,11 +15,11 @@ export function StatsProvider({ children }) {
     stakingContract,
     lpContract,
     wrappedBNBContract,
-    dittoContract,
+    goatContract,
     lpAddress,
     lpDecimals,
     wrappedBNBDecimals,
-    dittoDecimals,
+    goatDecimals,
     address,
   } = useWallet();
 
@@ -36,14 +36,14 @@ export function StatsProvider({ children }) {
   const [startBonus, setStartBonus] = React.useState(Big('0'));
   const [bonusPeriodSec, setBonusPeriodSec] = React.useState(Big('0'));
   const [poolBNBBalance, setPoolBNBBalance] = React.useState(Big('0'));
-  const [poolDittoBalance, setPoolDittoBalance] = React.useState(Big('0'));
+  const [poolGoatBalance, setPoolGoatBalance] = React.useState(Big('0'));
   const [schedules, setUnlockSchedules] = React.useState([]);
   const [bnbUSDPrice, setBNBUSDPrice] = React.useState(Big('0'));
-  const [dittoUSDPrice, setDittoUSDPrice] = React.useState(Big('0'));
+  const [goatUSDPrice, setGoatUSDPrice] = React.useState(Big('0'));
 
   // user
 
-  const [availableDittoRewards, setAvailableDittoRewards] = React.useState(
+  const [availableGoatRewards, setAvailableGoatRewards] = React.useState(
     Big('0')
   );
   const [availableCakeRewards, setAvailableCakeRewards] = React.useState(
@@ -65,10 +65,10 @@ export function StatsProvider({ children }) {
         !isZero(totalStaked) &&
         !isZero(totalSupply) &&
         !isZero(poolBNBBalance) &&
-        !isZero(poolDittoBalance) &&
+        !isZero(poolGoatBalance) &&
         !isZero(bnbUSDPrice) &&
-        !isZero(dittoUSDPrice) &&
-        dittoDecimals &&
+        !isZero(goatUSDPrice) &&
+        goatDecimals &&
         lpDecimals &&
         wrappedBNBDecimals
       )
@@ -76,12 +76,12 @@ export function StatsProvider({ children }) {
       return Big('0');
 
     const k = bnbUSDPrice;
-    const A = dittoUSDPrice;
+    const A = goatUSDPrice;
 
     // const l = 18;
     const c = lpDecimals; // lp
     const p = wrappedBNBDecimals; // bnb
-    const m = dittoDecimals; // ditto
+    const m = goatDecimals; // goat
 
     // const g = parseInt(v[0][0]) / 10 ** l;
     // const y = parseInt(v[0][1]) / 10 ** l;
@@ -95,7 +95,7 @@ export function StatsProvider({ children }) {
     // const k = yield up(f)
     // const A = yield up(d)
     const T = Big(poolBNBBalance).div(10 ** p);
-    const C = Big(poolDittoBalance).div(10 ** m);
+    const C = Big(poolGoatBalance).div(10 ** m);
 
     const O = k.mul(T);
     const P = A.mul(C);
@@ -115,10 +115,10 @@ export function StatsProvider({ children }) {
     totalStaked,
     totalSupply,
     poolBNBBalance,
-    poolDittoBalance,
+    poolGoatBalance,
     bnbUSDPrice,
-    dittoUSDPrice,
-    dittoDecimals,
+    goatUSDPrice,
+    goatDecimals,
     lpDecimals,
     wrappedBNBDecimals,
   ]);
@@ -186,7 +186,7 @@ export function StatsProvider({ children }) {
       maxMultiplier,
       minMultiplier,
     };
-    const p = availableDittoRewards;
+    const p = availableGoatRewards;
     const m = totalUserRewards;
     let w = e.startBonus;
     const z = isZero(totalUserRewards) ? Big('1') : p.div(m);
@@ -214,7 +214,7 @@ export function StatsProvider({ children }) {
     //   }, {})
     // );
     return S;
-  }, [startBonus, totalUserRewards, availableDittoRewards]);
+  }, [startBonus, totalUserRewards, availableGoatRewards]);
 
   const bnbPonusPoolSharePercentage = React.useMemo(() => {
     if (isZero(totalStakingShareSeconds)) return Big('0');
@@ -232,7 +232,7 @@ export function StatsProvider({ children }) {
         stakingContract &&
         lpContract &&
         wrappedBNBContract &&
-        dittoContract &&
+        goatContract &&
         lpAddress
       )
     )
@@ -248,8 +248,8 @@ export function StatsProvider({ children }) {
       startBonus,
       bonusPeriodSec,
       poolBNBBalance,
-      poolDittoBalance,
-      [bnbUSDPrice, dittoUSDPrice],
+      poolGoatBalance,
+      [bnbUSDPrice, goatUSDPrice],
     ] = await Promise.all([
       stakingContract.totalStaked(),
       stakingContract.totalLockedShares(),
@@ -261,8 +261,8 @@ export function StatsProvider({ children }) {
       stakingContract.startBonus(),
       stakingContract.bonusPeriodSec(),
       wrappedBNBContract.balanceOf(lpAddress),
-      dittoContract.balanceOf(lpAddress),
-      getCoinUsdPrices(['wbnb', 'ditto']),
+      goatContract.balanceOf(lpAddress),
+      getCoinUsdPrices(['wbnb', 'goat']),
       stakingContract.totalLocked(),
       stakingContract.unlockScheduleCount(),
     ]);
@@ -290,9 +290,9 @@ export function StatsProvider({ children }) {
     setStartBonus(Big(startBonus).div(100));
     setBonusPeriodSec(Big(bonusPeriodSec));
     setPoolBNBBalance(Big(poolBNBBalance));
-    setPoolDittoBalance(Big(poolDittoBalance));
+    setPoolGoatBalance(Big(poolGoatBalance));
     setBNBUSDPrice(Big(bnbUSDPrice));
-    setDittoUSDPrice(Big(dittoUSDPrice));
+    setGoatUSDPrice(Big(goatUSDPrice));
     setUnlockSchedules(schedules);
   };
 
@@ -307,12 +307,12 @@ export function StatsProvider({ children }) {
       stakingContract.totalStakedFor(address),
       stakingContract.callStatic.updateAccounting(),
     ]);
-    const availableDittoRewards = totalStakedFor.isZero()
+    const availableGoatRewards = totalStakedFor.isZero()
       ? '0'
       : await stakingContract.callStatic.unstakeQuery(totalStakedFor);
     setAvailableCakeRewards(Big(availableCakeRewards));
     setTotalStakedFor(Big(totalStakedFor));
-    setAvailableDittoRewards(Big(availableDittoRewards));
+    setAvailableGoatRewards(Big(availableGoatRewards));
     setTotalStakingShareSeconds(Big(totalStakingShareSeconds));
     setUserStakingShareSeconds(Big(userStakingShareSeconds));
     setTotalUserRewards(Big(totalUserRewards));
@@ -351,11 +351,11 @@ export function StatsProvider({ children }) {
     stakingContract,
     lpContract,
     wrappedBNBContract,
-    dittoContract,
+    goatContract,
     lpAddress,
     lpDecimals,
     wrappedBNBDecimals,
-    dittoDecimals,
+    goatDecimals,
   ]);
 
   React.useEffect(() => {
@@ -375,12 +375,12 @@ export function StatsProvider({ children }) {
         startBonus,
         bonusPeriodSec,
         poolBNBBalance,
-        poolDittoBalance,
+        poolGoatBalance,
         bnbUSDPrice,
-        dittoUSDPrice,
+        goatUSDPrice,
         schedules,
 
-        availableDittoRewards,
+        availableGoatRewards,
         availableCakeRewards,
         totalStakedFor,
         totalStakingShareSeconds,
@@ -415,12 +415,12 @@ export function useStats() {
     startBonus,
     bonusPeriodSec,
     poolBNBBalance,
-    poolDittoBalance,
+    poolGoatBalance,
     schedules,
     bnbUSDPrice,
-    dittoUSDPrice,
+    goatUSDPrice,
 
-    availableDittoRewards,
+    availableGoatRewards,
     availableCakeRewards,
     totalStakedFor,
     totalStakingShareSeconds,
@@ -445,12 +445,12 @@ export function useStats() {
     startBonus,
     bonusPeriodSec,
     poolBNBBalance,
-    poolDittoBalance,
+    poolGoatBalance,
     schedules,
     bnbUSDPrice,
-    dittoUSDPrice,
+    goatUSDPrice,
 
-    availableDittoRewards,
+    availableGoatRewards,
     availableCakeRewards,
     totalStakedFor,
     totalStakingShareSeconds,
@@ -474,5 +474,5 @@ async function getCoinUsdPrices(assetsCoinGeckoIds) {
       vs_currencies: 'usd',
     }
   );
-  return assetsCoinGeckoIds.map(id => Big(prices[id].usd));
+  return assetsCoinGeckoIds.map(id => Big((prices[id] || { usd: 0 }).usd));
 }

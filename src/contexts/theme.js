@@ -1,7 +1,7 @@
 import React from 'react';
 import { createMuiTheme } from '@material-ui/core/styles';
-import { BORDER_RADIUS, SECONDARY_COLOR } from 'config';
-import cache from 'utils/cache';
+import { BORDER_RADIUS, SECONDARY_COLOR } from '../config';
+import cache from '../utils/cache';
 
 const ThemeContext = React.createContext(null);
 

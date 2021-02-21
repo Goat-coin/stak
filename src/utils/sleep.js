@@ -1,1 +1,3 @@
-export default ms => new Promise(r => setTimeout(r, ms));
+import { promisify } from 'util';
+
+export default ms => promisify(setTimeout);

@@ -14,18 +14,18 @@ import {
   StepLabel,
   Typography,
 } from '@material-ui/core';
-import { STAKING_ADDRESS, useWallet } from 'contexts/wallet';
-import { useNotifications } from 'contexts/notifications';
-import Balance from 'components/Balance';
+import { STAKING_ADDRESS, useWallet } from '../contexts/wallet';
+import { useNotifications } from '../contexts/notifications';
+import Balance from '../components/Balance';
 import {
   formatUnits,
   // Big,
   isZero,
   // toFixed
-} from 'utils/big-number';
-import { BORDER_RADIUS, EMPTY_CALL_DATA } from 'config';
-import ERC20_CONTRACT_ABI from 'abis/erc20.json';
-import sleep from 'utils/sleep';
+} from '../utils/big-number';
+import { BORDER_RADIUS, EMPTY_CALL_DATA } from '../config';
+import ERC20_CONTRACT_ABI from '../abis/erc20.json';
+import sleep from '../utils/sleep';
 // import { useStats } from 'contexts/stats';
 
 export const useStyles = makeStyles(theme => ({
@@ -91,7 +91,7 @@ function GetLPTokens({ history }) {
     lpName,
     lpAddress,
     lpDecimals,
-    dittoAddress,
+    goatAddress,
     address,
     signer,
   } = useWallet();
@@ -136,7 +136,7 @@ function GetLPTokens({ history }) {
     return subscribe(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contract, address]);
 
-  return !(dittoAddress && lpAddress) ? null : (
+  return !(goatAddress && lpAddress) ? null : (
     <>
       {!address ? null : (
         <Box mt={2}>
@@ -150,7 +150,7 @@ function GetLPTokens({ history }) {
         Get {!address ? `Liquidity Pool Tokens (${lpName})` : 'more'} by
         providing liquidity to the DITTO-BNB Pool over{' '}
         <a
-          href={`https://exchange.pancakeswap.finance/#/add/ETH/${dittoAddress}`}
+          href={`https://exchange.pancakeswap.finance/#/add/ETH/${goatAddress}`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -270,7 +270,7 @@ function Deposit() {
     setIsApproved(allowance.gte(depositAmount));
   };
 
-  // const monthlyDittoRewards = React.useMemo(() => {
+  // const monthlyGoatRewards = React.useMemo(() => {
   //   if (
   //     !(
   //       depositAmount &&
@@ -402,7 +402,7 @@ function Deposit() {
       {/* <Box mt={2}>
         <Paper className={clsx(classes.rewards)}>
           <div>Your Estimated Rewards:</div>
-          <div>{toFixed(monthlyDittoRewards, 1)} DITTO / month,</div>
+          <div>{toFixed(monthlyGoatRewards, 1)} DITTO / month,</div>
           <div>plus CAKE depending on Pancakeswap emission.</div>
         </Paper>
       </Box> */}

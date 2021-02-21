@@ -5,11 +5,11 @@ import {
   READ_WEB3_PROVIDER,
   CACHE_WALLET_KEY,
   NETWORK_CHAIN_ID,
-} from 'config';
-import cache from 'utils/cache';
-import STAKING_ABI from 'abis/staking.json';
-import LP_ABI from 'abis/lp.json';
-import ERC20_ABI from 'abis/erc20.json';
+} from '../config';
+import cache from '../utils/cache';
+import STAKING_ABI from '../abis/staking.json';
+import LP_ABI from '../abis/lp.json';
+import ERC20_ABI from '../abis/erc20.json';
 
 export const READ_PROVIDER = new ethers.providers.JsonRpcProvider(
   READ_WEB3_PROVIDER
@@ -32,8 +32,8 @@ export function WalletProvider({ children }) {
   const [lpAddress, setLpAddress] = React.useState(null);
   const [lpDecimals] = React.useState(18);
 
-  const [dittoAddress, setDittoAddress] = React.useState(null);
-  const [dittoDecimals] = React.useState(9);
+  const [goatAddress, setGoatAddress] = React.useState(null);
+  const [goatDecimals] = React.useState(9);
 
   const [wrappedBNBDecimals] = React.useState(18);
 
@@ -60,11 +60,11 @@ export function WalletProvider({ children }) {
     [signer, lpAddress]
   );
 
-  const dittoContract = React.useMemo(
+  const goatContract = React.useMemo(
     () =>
-      dittoAddress &&
-      new ethers.Contract(dittoAddress, ERC20_ABI, signer || READ_PROVIDER),
-    [signer, dittoAddress]
+      goatAddress &&
+      new ethers.Contract(goatAddress, ERC20_ABI, signer || READ_PROVIDER),
+    [signer, goatAddress]
   );
 
   const wrappedBNBContract = React.useMemo(
@@ -157,13 +157,13 @@ export function WalletProvider({ children }) {
   // }
 
   async function load() {
-    const [lpAddress, dittoAddress] = await Promise.all([
+    const [lpAddress, goatAddress] = await Promise.all([
       stakingContract.stakingToken(),
       stakingContract.getDistributionToken(),
       connectToCached(),
     ]);
     setLpAddress(lpAddress);
-    setDittoAddress(dittoAddress);
+    setGoatAddress(goatAddress);
     setIsLoaded(true);
   }
 
@@ -190,9 +190,9 @@ export function WalletProvider({ children }) {
         lpDecimals,
         lpName,
 
-        dittoContract,
-        dittoAddress,
-        dittoDecimals,
+        goatContract,
+        goatAddress,
+        goatDecimals,
 
         // cakeContract,
         // cakeAddress,
@@ -237,9 +237,9 @@ export function useWallet() {
     lpDecimals,
     lpName,
 
-    dittoContract,
-    dittoAddress,
-    dittoDecimals,
+    goatContract,
+    goatAddress,
+    goatDecimals,
 
     cakeContract,
     cakeAddress,
@@ -274,9 +274,9 @@ export function useWallet() {
     lpDecimals,
     lpName,
 
-    dittoContract,
-    dittoAddress,
-    dittoDecimals,
+    goatContract,
+    goatAddress,
+    goatDecimals,
 
     cakeContract,
     cakeAddress,

@@ -9,15 +9,15 @@ import {
 import { CssBaseline } from '@material-ui/core';
 import { SnackbarProvider } from 'notistack';
 
-import { ThemeProvider, useTheme, useMuiTheme } from 'contexts/theme';
-import { WalletProvider } from 'contexts/wallet';
-import { NotificationsProvider } from 'contexts/notifications';
-import { StatsProvider } from 'contexts/stats';
-import { BonusesProvider } from 'contexts/bonuses';
-import Notification from 'components/Notification';
-import * as serviceWorker from 'serviceWorker';
+import { ThemeProvider, useTheme, useMuiTheme } from './contexts/theme';
+import { WalletProvider } from './contexts/wallet';
+import { NotificationsProvider } from './contexts/notifications';
+import { StatsProvider } from './contexts/stats';
+import { BonusesProvider } from './contexts/bonuses';
+import Notification from './components/Notification';
+import * as serviceWorker from './serviceWorker';
 
-import App from 'pages/App';
+import App from './pages/App';
 
 const useStyles = makeStyles(theme => ({
   snackbar: {

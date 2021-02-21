@@ -9,7 +9,7 @@ import {
   Redirect,
   Link,
 } from 'react-router-dom';
-import { BORDER_RADIUS, ROUTER_BASE_NAME } from 'config';
+import { BORDER_RADIUS, ROUTER_BASE_NAME } from '../config';
 import Header from './Header';
 import TopStats from './TopStats';
 import Nav from './Nav';
@@ -18,7 +18,7 @@ import Deposit from './Deposit';
 import Stats from './Stats';
 import Bonus from './Bonus';
 import ConnectWallet from './ConnectWallet';
-import { useBonuses } from 'contexts/bonuses';
+import { useBonuses } from '../contexts/bonuses';
 
 const useStyles = makeStyles(theme => ({
   container: {

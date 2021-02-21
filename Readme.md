@@ -1,6 +1,6 @@
 # Staking Frontend
 
-Staking frontend for the Ditto Elastic Supply Currency.
+Staking frontend for the Goat Elastic Supply Currency.
 
 # Run
 

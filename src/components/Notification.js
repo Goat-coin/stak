@@ -9,7 +9,7 @@ import {
   Close as CloseIcon,
 } from '@material-ui/icons';
 import { useSnackbar } from 'notistack';
-import { IS_TESTNET } from 'config';
+import { IS_TESTNET } from '../config';
 
 const useStyles = makeStyles(theme => ({
   paper: {

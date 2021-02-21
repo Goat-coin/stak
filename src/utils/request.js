@@ -1,6 +1,6 @@
 import fetch from 'unfetch';
 import qs from 'query-string';
-import { API_URL } from 'config';
+import { API_URL } from '../config';
 
 export async function get(url, query) {
   if (query) {

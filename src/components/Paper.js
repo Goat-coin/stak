@@ -1,6 +1,6 @@
 import React from 'react';
 import { Paper } from '@material-ui/core';
-import { useTheme } from 'contexts/theme';
+import { useTheme } from '../contexts/theme';
 
 export default ({ className, children }) => {
   const { isDark } = useTheme();

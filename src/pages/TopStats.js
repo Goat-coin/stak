@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Tooltip } from '@material-ui/core';
 import { Help as TipIcon } from '@material-ui/icons';
-import { formatUnits, toFixed, isZero } from 'utils/big-number';
-import Paper from 'components/Paper';
-import { useWallet } from 'contexts/wallet';
-import { useStats } from 'contexts/stats';
+import { formatUnits, toFixed, isZero } from '../utils/big-number';
+import Paper from '../components/Paper';
+import { useWallet } from '../contexts/wallet';
+import { useStats } from '../contexts/stats';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -45,10 +45,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function() {
   const classes = useStyles();
-  const { dittoDecimals, cakeDecimals, wrappedBNBDecimals } = useWallet();
+  const { goatDecimals, cakeDecimals, wrappedBNBDecimals } = useWallet();
   const {
     apy,
-    availableDittoRewards,
+    availableGoatRewards,
     availableCakeRewards,
     rewardMultiplier,
     bnbPonusPoolSharePercentage,
@@ -73,7 +73,7 @@ export default function() {
         name: 'Rewards Earned',
         value: [
           <div className="flex items-center">
-            {formatUnits(availableDittoRewards, dittoDecimals)} DITT0
+            {formatUnits(availableGoatRewards, goatDecimals)} GOAT
             <Box ml={1} className="flex items-center">
               <img src="coins/DITTO.png" alt="DITTO" width={15} height={15} />
             </Box>
@@ -119,9 +119,9 @@ export default function() {
     ],
     [
       apy,
-      availableDittoRewards,
+      availableGoatRewards,
       availableCakeRewards,
-      dittoDecimals,
+      goatDecimals,
       cakeDecimals,
       wrappedBNBDecimals,
       rewardMultiplier,

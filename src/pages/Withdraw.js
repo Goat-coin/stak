@@ -3,11 +3,11 @@ import * as ethers from 'ethers';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Paper, Button, TextField } from '@material-ui/core';
-import { useWallet } from 'contexts/wallet';
-import { useNotifications } from 'contexts/notifications';
-import { formatUnits } from 'utils/big-number';
-import { BORDER_RADIUS, EMPTY_CALL_DATA } from 'config';
-import { useStats } from 'contexts/stats';
+import { useWallet } from '../contexts/wallet';
+import { useNotifications } from '../contexts/notifications';
+import { formatUnits } from '../utils/big-number';
+import { BORDER_RADIUS, EMPTY_CALL_DATA } from '../config';
+import { useStats } from '../contexts/stats';
 
 export const useStyles = makeStyles(theme => ({
   container: {
@@ -53,11 +53,11 @@ export default function() {
     stakingContract,
     lpContract,
     lpDecimals,
-    dittoDecimals,
+    goatDecimals,
     cakeDecimals,
     lpName,
   } = useWallet();
-  const { availableDittoRewards, availableCakeRewards } = useStats();
+  const { availableGoatRewards, availableCakeRewards } = useStats();
 
   const [isWithdrawing, setIsWithdrawing] = React.useState(false);
 
@@ -177,7 +177,7 @@ export default function() {
 
         <Paper className={clsx(classes.rewards)}>
           <div>Rewards Earned:</div>
-          <div>{formatUnits(availableDittoRewards, dittoDecimals)} DITTO</div>
+          <div>{formatUnits(availableGoatRewards, goatDecimals)} DITTO</div>
           <div>{formatUnits(availableCakeRewards, cakeDecimals)} CAKE</div>
         </Paper>
       </Box>

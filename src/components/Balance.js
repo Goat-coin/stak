@@ -2,10 +2,10 @@ import React from 'react';
 import Promise from 'bluebird';
 import * as ethers from 'ethers';
 import { makeStyles } from '@material-ui/core/styles';
-import ERC20_CONTRACT_ABI from 'abis/erc20.json';
-import { formatUnits } from 'utils/big-number';
-import { useWallet } from 'contexts/wallet';
-import sleep from 'utils/sleep';
+import ERC20_CONTRACT_ABI from '../abis/erc20.json';
+import { formatUnits } from '../utils/big-number';
+import { useWallet } from '../contexts/wallet';
+import sleep from '../utils/sleep';
 
 const useStyles = makeStyles(theme => ({
   container: {},

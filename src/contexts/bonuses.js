@@ -1,9 +1,9 @@
 import React from 'react';
 import * as ethers from 'ethers';
-import { useWallet } from 'contexts/wallet';
-import * as request from 'utils/request';
-import DROP_ABI from 'abis/merkle.json';
-import { NETWORK } from 'config';
+import { useWallet } from '../contexts/wallet';
+import * as request from '../utils/request';
+import DROP_ABI from '../abis/merkle.json';
+import { NETWORK } from '../config';
 
 const BonusesContext = React.createContext(null);
 

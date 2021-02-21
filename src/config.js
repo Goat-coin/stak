@@ -1,6 +1,6 @@
-export const APP_SLUG = 'ditto';
+export const APP_SLUG = 'goat';
 
-export const APP_TITLE = 'Ditto Staking';
+export const APP_TITLE = 'Goat Staking';
 
 export const CACHE_WALLET_KEY = 'wallet';
 

@@ -11,11 +11,11 @@ import {
   Button,
 } from '@material-ui/core';
 import { Close as Icon } from '@material-ui/icons';
-import { formatUnits } from 'utils/big-number';
-import { useNotifications } from 'contexts/notifications';
-import { useWallet } from 'contexts/wallet';
-import Loader from 'components/Loader';
-import { useBonuses } from 'contexts/bonuses';
+import { formatUnits } from '../utils/big-number';
+import { useNotifications } from '../contexts/notifications';
+import { useWallet } from '../contexts/wallet';
+import Loader from '../components/Loader';
+import { useBonuses } from '../contexts/bonuses';
 
 const useStyles = makeStyles(theme => ({
   container: {
