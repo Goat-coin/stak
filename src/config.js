@@ -43,7 +43,7 @@ export const EMPTY_CALL_DATA =
 
 export const ROUTER_BASE_NAME = process.env.REACT_APP_ROUTER_BASE_NAME;
 
-export const SECONDARY_COLOR = '#ed7ac0';
+export const SECONDARY_COLOR = '#ffa132';
 
 export const NETWORK = NETWORKS[NETWORK_CHAIN_ID];
 
