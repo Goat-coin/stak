@@ -3,7 +3,7 @@ import { Big, isZero } from '../utils/big-number';
 import { useWallet } from '../contexts/wallet';
 import * as request from '../utils/request';
 
-const CAKE_APY = Big('144');
+const GOAT_APY = Big('144');
 
 const StatsContext = React.createContext(null);
 
@@ -167,7 +167,7 @@ export function StatsProvider({ children }) {
       .div(totalUSDDeposits)
       .mul(8760)
       .mul(100)
-      .add(CAKE_APY)
+      .add(GOAT_APY)
       .add(BNB_APY);
 
     if (apy.gte(1e6)) {
