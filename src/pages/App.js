@@ -67,7 +67,7 @@ export default function App() {
           <Nav />
           <Box className={classes.tabContent}>
             <Switch>
-              <Route path={'/deposit'} component={Deposit} />
+              <Route path={'/deposit'} component={Deposit} /> 
               <Route exact path={'/withdraw'} component={Withdraw} />
               <Route exact path={'/stats'} component={Stats} />
               <Route exact path={'/bonus'} component={Bonus} />

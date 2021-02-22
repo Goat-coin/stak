@@ -64,57 +64,17 @@ export default function() {
         tip: 'APR is estimated for a new deposit over the next 30 days.',
       },
       {
-        name: 'Reward Multiplier',
-        value: [`${toFixed(rewardMultiplier, 1, 1)}x`],
-        tip:
-          'Deposit liquidity for 14 days to achieve a 3x reward multiplier. The multiplier applies to DITTO rewards only.',
-      },
-      {
         name: 'Rewards Earned',
         value: [
           <div className="flex items-center">
             {formatUnits(availableGoatRewards, goatDecimals)} GOAT
             <Box ml={1} className="flex items-center">
-              <img src="coins/DITTO.png" alt="DITTO" width={15} height={15} />
+              <img src="coins/GOAT.png" alt="GOAT" width={15} height={15} />
             </Box>
-          </div>,
-          <div className="flex items-center">
-            {formatUnits(availableCakeRewards, cakeDecimals)} CAKE&nbsp;
-            <Box ml={1} className="flex items-center">
-              <img src="coins/CAKE.png" alt="CAKE" width={15} height={15} />
-            </Box>
-          </div>,
+          </div>
         ],
         tip:
-          'Amount of DITTO and CAKE rewards you will receive on unstaking. Note that unstaking resets your multiplier.',
-      },
-      {
-        name: 'Projected Bonus Share',
-        value: [
-          <div className="flex items-center">
-            {toFixed(bnbPonusPoolSharePercentage, 0.01, 2)} %
-          </div>,
-          <Link to="/bonus" className={clsx('flex items-center', classes.link)}>
-            {formatUnits(bnbPonusPoolShareAmount, wrappedBNBDecimals)} BNB&nbsp;
-            <Box ml={1} className="flex items-center">
-              <img src="coins/BNB.png" alt="BNB" width={15} height={15} />
-            </Box>
-          </Link>,
-          <div>
-            {isZero(stakingEndSec) ? null : (
-              <div className={classes.small}>
-                To receive this reward you must stake until{' '}
-                {moment
-                  .unix(stakingEndSec)
-                  .local()
-                  .format('MMM D, YYYY')}
-                .
-              </div>
-            )}
-          </div>,
-        ],
-        tip:
-          'Amount of bonus pool tokens earned. To claim this bonus you must stake until the end of this staking program. The larger your deposit and the longer you stake, the more bonus shares you will accumulate.',
+          'Amount of GOAT rewards you will receive on unstaking. Note that unstaking resets your multiplier.',
       },
     ],
     [

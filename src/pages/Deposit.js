@@ -148,7 +148,7 @@ function GetLPTokens({ history }) {
 
       <Box mt={2}>
         Get {!address ? `Liquidity Pool Tokens (${lpName})` : 'more'} by
-        providing liquidity to the DITTO-BNB Pool over{' '}
+        providing liquidity to the GOAT-BNB Pool over{' '}
         <a
           href={`https://exchange.pancakeswap.finance/#/add/ETH/${goatAddress}`}
           target="_blank"

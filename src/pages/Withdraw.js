@@ -177,8 +177,7 @@ export default function() {
 
         <Paper className={clsx(classes.rewards)}>
           <div>Rewards Earned:</div>
-          <div>{formatUnits(availableGoatRewards, goatDecimals)} DITTO</div>
-          <div>{formatUnits(availableCakeRewards, cakeDecimals)} CAKE</div>
+          <div>{formatUnits(availableGoatRewards, goatDecimals)} GOAT</div>
         </Paper>
       </Box>
 

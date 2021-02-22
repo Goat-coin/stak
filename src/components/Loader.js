@@ -33,7 +33,7 @@ export default function({
           left={0}
           top={0}
           {...{ size, color }}
-          status="loading"
+          status="Drinking goat some milk"
         />
       </div>
     </div>
