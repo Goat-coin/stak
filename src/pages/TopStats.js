@@ -45,11 +45,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function() {
   const classes = useStyles();
-  const { goatDecimals, cakeDecimals, wrappedBNBDecimals } = useWallet();
+  const { goatDecimals, wrappedBNBDecimals } = useWallet();
   const {
     apy,
     availableGoatRewards,
-    availableCakeRewards,
     rewardMultiplier,
     bnbPonusPoolSharePercentage,
     bnbPonusPoolShareAmount,
@@ -74,15 +73,13 @@ export default function() {
           </div>
         ],
         tip:
-          'Amount of GOAT rewards you will receive on unstaking. Note that unstaking resets your multiplier.',
+          'Amount of GOAT rewards you will receive on unstaking.',
       },
     ],
     [
       apy,
       availableGoatRewards,
-      availableCakeRewards,
       goatDecimals,
-      cakeDecimals,
       wrappedBNBDecimals,
       rewardMultiplier,
       bnbPonusPoolShareAmount,
