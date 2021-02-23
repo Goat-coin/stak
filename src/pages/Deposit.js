@@ -252,7 +252,7 @@ function Deposit() {
         );
       }
       setIsDepositing(true);
-      const tx = await stakingContract.stake(depositAmount, EMPTY_CALL_DATA);
+      const tx = await stakingContract.stake(depositAmount);
       showTxNotification(`Depositing ${lpName}`, tx.hash);
       await tx.wait();
       showTxNotification(`Deposited ${lpName}`, tx.hash);
@@ -352,12 +352,39 @@ function Deposit() {
     setMaxDepositAmount(depositAmount);
   };
 
+  const getReward = async () => {
+    if (!(lpContract && address)) return;
+    try {
+      // if (depositAmount.isZero())
+      //   return showErrorNotification('Enter deposit amount.');
+      // if (!depositMaxAmount && depositAmount.gt(maxDepositAmount)) {
+      //   return showErrorNotification(
+      //     'You are trying to deposit more than your actual balance.'
+      //   );
+      // }
+      setIsDepositing(true);
+      const tx = await stakingContract.getReward();
+      showTxNotification(`Depositing ${lpName}`, tx.hash);
+      await tx.wait();
+      showTxNotification(`Deposited ${lpName}`, tx.hash);
+      onSetDepositMaxAmount();
+    } catch (e) {
+      showErrorNotification(e);
+    } finally {
+      setIsDepositing(false);
+    }
+  };
+
   React.useEffect(() => {
     checkAllowance();
   }, [lpContract, address, depositAmount]); // eslint-disable-line react-hooks/exhaustive-deps
 
   React.useEffect(() => {
     onSetDepositMaxAmount();
+  }, [lpContract, address]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  React.useEffect(() => {
+    getReward();
   }, [lpContract, address]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -399,13 +426,21 @@ function Deposit() {
         </div>
       )}
 
-      {/* <Box mt={2}>
+      <Box mt={2}>
         <Paper className={clsx(classes.rewards)}>
-          <div>Your Estimated Rewards:</div>
+          <div>Your Rewards:</div>
           <div>{toFixed(monthlyGoatRewards, 1)} DITTO / month,</div>
-          <div>plus CAKE depending on Pancakeswap emission.</div>
+          <Button
+              color="default"
+              variant="outlined"
+              onClick={getReward}
+              disabled={!(lpContract && address)}
+              className={classes.maxButton}
+            >
+              Claim
+            </Button>
         </Paper>
-      </Box> */}
+      </Box>
 
       <Box mt={2}>
         <Button
