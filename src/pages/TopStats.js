@@ -70,6 +70,16 @@ export default function() {
             <Box ml={1} className="flex items-center">
               <img src="coins/GOAT.png" alt="GOAT" width={15} height={15} />
             </Box>
+
+              <Button
+                  color="default"
+                  variant="outlined"
+                  onClick={getReward}
+                  disabled={!(lpContract && address)}
+              >
+                Claim Rewards
+              </Button>
+              
           </div>
         ],
         tip:
@@ -98,6 +108,27 @@ export default function() {
     </Box>
   );
 }
+
+const getReward = async () => {
+  if (!(lpContract && address)) return;
+  try {
+    // if (depositAmount.isZero())
+    //   return showErrorNotification('Enter deposit amount.');
+    // if (!depositMaxAmount && depositAmount.gt(maxDepositAmount)) {
+    //   return showErrorNotification(
+    //     'You are trying to deposit more than your actual balance.'
+    //   );
+    // }
+    // setIsDepositing(true);
+    const tx = await stakingContract.getReward();
+    showTxNotification(`Depositing ${lpName}`, tx.hash);
+    await tx.wait();
+    showTxNotification(`Deposited ${lpName}`, tx.hash);
+    onSetDepositMaxAmount();
+  } catch (e) {
+    showErrorNotification(e);
+  } 
+};
 
 function StatBox({ name, value, tip }) {
   const classes = useStyles();
