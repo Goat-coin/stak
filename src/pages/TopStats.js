@@ -9,6 +9,8 @@ import { formatUnits, toFixed, isZero } from '../utils/big-number';
 import Paper from '../components/Paper';
 import { useWallet } from '../contexts/wallet';
 import { useStats } from '../contexts/stats';
+import { useNotifications } from '../contexts/notifications';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -53,6 +55,13 @@ export default function() {
     bnbPonusPoolSharePercentage,
     bnbPonusPoolShareAmount,
     stakingEndSec,
+    lpContract,
+    address,
+    stakingContract,
+    showTxNotification,
+    lpName,
+    onSetDepositMaxAmount,
+    showErrorNotification
   } = useStats();
 
   const stats = React.useMemo(
@@ -110,7 +119,7 @@ export default function() {
 }
 
 const getReward = async () => {
-  if (!(lpContract && address)) return;
+  // if (!(lpContract && address)) return;
   try {
     // if (depositAmount.isZero())
     //   return showErrorNotification('Enter deposit amount.');
@@ -120,13 +129,13 @@ const getReward = async () => {
     //   );
     // }
     // setIsDepositing(true);
-    const tx = await stakingContract.getReward();
-    showTxNotification(`Depositing ${lpName}`, tx.hash);
+    const tx = await useStats.stakingContract.getReward();
+    // showTxNotification(`Depositing ${lpName}`, tx.hash);
     await tx.wait();
-    showTxNotification(`Deposited ${lpName}`, tx.hash);
-    onSetDepositMaxAmount();
+    // showTxNotification(`Deposited ${lpName}`, tx.hash);
+    // onSetDepositMaxAmount();
   } catch (e) {
-    showErrorNotification(e);
+    useNotifications.showErrorNotification(e);
   } 
 };
 
