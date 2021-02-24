@@ -74,7 +74,7 @@ export default function() {
       {
         name: 'Rewards Earned',
         value: [
-          <div className="flex items-start">
+          <div className="flex items-start flex-wrap">
             {formatUnits(availableGoatRewards, goatDecimals)} GOAT
             <Box ml={1} className="flex items-center">
               <img src="coins/GOAT.png" alt="GOAT" width={15} height={15} />
