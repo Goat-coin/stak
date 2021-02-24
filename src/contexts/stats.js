@@ -238,62 +238,23 @@ export function StatsProvider({ children }) {
     )
       return;
     const [
-      // totalStaked,
-      // totalLockedShares,
-      // unlockScheduleCount,
-      // totalStakingShares,
-      // totalLocked,
-      noOfSchedules,
       totalSupply,
-      // startBonus,
-      bonusPeriodSec,
       poolBNBBalance,
       poolGoatBalance,
       [bnbUSDPrice, goatUSDPrice],
     ] = await Promise.all([
-      // stakingContract.totalStaked(),
-      // stakingContract.totalLockedShares(),
-      // stakingContract.unlockScheduleCount(),
-      // stakingContract.totalStakingShares(),
-      // stakingContract.totalLocked(),
-      // stakingContract.unlockScheduleCount(),
       lpContract.totalSupply(),
-      // stakingContract.startBonus(),
-      // stakingContract.bonusPeriodSec(),
       wrappedBNBContract.balanceOf(lpAddress),
       goatContract.balanceOf(lpAddress),
       getCoinUsdPrices(['wbnb', 'goat']),
-      // stakingContract.totalLocked(),
-      // stakingContract.unlockScheduleCount(),
     ]);
 
-    const schedules = [];
-    if (!noOfSchedules.isZero()) {
-      for (let b = 0; b < noOfSchedules.toNumber(); b++) {
-        const schedule = await stakingContract.unlockSchedules(b);
-        schedules.push({
-          initialLockedShares: Big(schedule.initialLockedShares), 
-          unlockedShares: Big(schedule.unlockedShares),
-          lastUnlockTimestampSec: Big(schedule.lastUnlockTimestampSec),
-          endAtSec: Big(schedule.endAtSec),
-          durationSec: Big(schedule.durationSec),
-        });
-      }
-    }
 
-    setTotalStaked(Big(totalStaked));
-    setTotalLockedShares(Big(totalLockedShares));
-    setUnlockScheduleCount(Big(unlockScheduleCount));
-    setTotalStakingShares(Big(totalStakingShares));
-    setTotalLocked(Big(totalLocked));
     setTotalSupply(Big(totalSupply));
-    setStartBonus(Big(startBonus).div(100));
-    setBonusPeriodSec(Big(bonusPeriodSec));
     setPoolBNBBalance(Big(poolBNBBalance));
     setPoolGoatBalance(Big(poolGoatBalance));
     setBNBUSDPrice(Big(bnbUSDPrice));
     setGoatUSDPrice(Big(goatUSDPrice));
-    setUnlockSchedules(schedules);
   };
 
   const loadUserStats = async () => {
@@ -320,8 +281,8 @@ export function StatsProvider({ children }) {
 
   // const subscribeToPoolStats = () => {
   //   if (!stakingContract) return;
-  //   const stakedEvent = stakingContract.filters.Staked();
-  //   const unstakedEvent = stakingContract.filters.Unstaked();
+  //   const stakedEvent = stakingContract.filters.Stake();
+  //   const unstakedEvent = stakingContract.filters.Withdrawn();
   //   stakingContract.on(stakedEvent, loadPoolStats);
   //   stakingContract.on(unstakedEvent, loadPoolStats);
   //   return () => {
@@ -332,8 +293,8 @@ export function StatsProvider({ children }) {
 
   // const subscribeToUserStats = () => {
   //   if (!(stakingContract && address)) return;
-  //   const stakedEvent = stakingContract.filters.Staked();
-  //   const unstakedEvent = stakingContract.filters.Unstaked();
+  //   const stakedEvent = stakingContract.filters.Stake();
+  //   const unstakedEvent = stakingContract.filters.Withdrawn();
   //   stakingContract.on(stakedEvent, loadUserStats);
   //   stakingContract.on(unstakedEvent, loadUserStats);
   //   const cid = setInterval(loadUserStats, 1000 * 30);
@@ -341,7 +302,7 @@ export function StatsProvider({ children }) {
   //     stakingContract.off(stakedEvent, loadUserStats);
   //     stakingContract.off(unstakedEvent, loadUserStats);
   //     clearInterval(cid);
-  //   };
+  //   }; 
   // };
 
   React.useEffect(() => {

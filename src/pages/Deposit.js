@@ -150,14 +150,14 @@ function GetLPTokens({ history }) {
         Get {!address ? `Liquidity Pool Tokens (${lpName})` : 'more'} by
         providing liquidity to the GOAT-BNB Pool over{' '}
         <a
-          href={`https://exchange.pancakeswap.finance/#/add/ETH/${goatAddress}`}
+          href={`https://exchange.pancakeswap.finance/#/add/ETH/0x7c67dccb04b67d4666fd97b2a00bb6d9b8d82e3f`}
           target="_blank"
           rel="noopener noreferrer"
         >
           here
         </a>
         .
-      </Box>
+      </Box>    
 
       <Box mt={2}>
         <Button
@@ -187,15 +187,15 @@ function Deposit() {
     lpAddress,
   } = useWallet();
 
-  // const {
-  //   monthlyUnlockRate,
-  //   totalStakingShares,
-  //   totalStaked,
-  //   totalStakingShareSeconds,
-  //   totalStakedFor,
-  //   userStakingShareSeconds,
-  //   stakingEndSec,
-  // } = useStats();
+  const {
+    monthlyUnlockRate,
+    totalStakingShares,
+    totalStaked,
+    totalStakingShareSeconds,
+    totalStakedFor,
+    userStakingShareSeconds,
+    stakingEndSec,
+  } = useStats();
 
   const [isApproving, setIsApproving] = React.useState(false);
   const [isApproved, setIsApproved] = React.useState(false);
