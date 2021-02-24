@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Tooltip } from '@material-ui/core';
 import { Help as TipIcon } from '@material-ui/icons';
-import { formatUnits, toFixed, isZero } from '../utils/big-number';
+import { formatUnits, toFixed, isZero, Big } from '../utils/big-number';
 import Paper from '../components/Paper';
 import { useWallet } from '../contexts/wallet';
 import { useStats } from '../contexts/stats';
@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function() {
   const classes = useStyles();
-  const { goatDecimals, wrappedBNBDecimals } = useWallet();
+  const { goatDecimals, wrappedBNBDecimals, stakingContract, address } = useWallet();
   const {
     apy,
     availableGoatRewards,
@@ -55,14 +55,38 @@ export default function() {
     bnbPonusPoolSharePercentage,
     bnbPonusPoolShareAmount,
     stakingEndSec,
-    lpContract,
-    address,
-    stakingContract,
-    showTxNotification,
-    lpName,
-    onSetDepositMaxAmount,
-    showErrorNotification
   } = useStats();
+
+  const earnedGoatRewards = async () => {
+    try {
+      const rewards = await stakingContract.earned(address);
+      console.log(rewards);
+      return rewards;
+    } catch (e) {
+      // useNotifications.showErrorNotification(e);
+    } 
+  };
+  
+  const getReward = async () => {
+    // if (!(lpContract && address)) return;
+    try {
+      // if (depositAmount.isZero())
+      //   return showErrorNotification('Enter deposit amount.');
+      // if (!depositMaxAmount && depositAmount.gt(maxDepositAmount)) {
+      //   return showErrorNotification(
+      //     'You are trying to deposit more than your actual balance.'
+      //   );
+      // }
+      // setIsDepositing(true);
+      const tx = await useStats.stakingContract.getReward();
+      // showTxNotification(`Depositing ${lpName}`, tx.hash);
+      await tx.wait();
+      // showTxNotification(`Deposited ${lpName}`, tx.hash);
+      // onSetDepositMaxAmount();
+    } catch (e) {
+      useNotifications.showErrorNotification(e);
+    } 
+  };
 
   const stats = React.useMemo(
     () => [
@@ -75,7 +99,7 @@ export default function() {
         name: 'Rewards Earned',
         value: [
           <div className="flex items-start flex-wrap">
-            {formatUnits(availableGoatRewards, goatDecimals)} GOAT
+            {earnedGoatRewards} GOAT
             <Box ml={1} className="flex items-center">
               <img src="coins/GOAT.png" alt="GOAT" width={15} height={15} />
             </Box>
@@ -84,7 +108,7 @@ export default function() {
                   color="default"
                   variant="outlined"
                   onClick={getReward}
-                  disabled={!(lpContract && address)}
+                  // disabled={!(lpContract && address)}
               >
                 Claim Rewards
               </Button>
@@ -118,26 +142,7 @@ export default function() {
   );
 }
 
-const getReward = async () => {
-  // if (!(lpContract && address)) return;
-  try {
-    // if (depositAmount.isZero())
-    //   return showErrorNotification('Enter deposit amount.');
-    // if (!depositMaxAmount && depositAmount.gt(maxDepositAmount)) {
-    //   return showErrorNotification(
-    //     'You are trying to deposit more than your actual balance.'
-    //   );
-    // }
-    // setIsDepositing(true);
-    const tx = await useStats.stakingContract.getReward();
-    // showTxNotification(`Depositing ${lpName}`, tx.hash);
-    await tx.wait();
-    // showTxNotification(`Deposited ${lpName}`, tx.hash);
-    // onSetDepositMaxAmount();
-  } catch (e) {
-    useNotifications.showErrorNotification(e);
-  } 
-};
+
 
 function StatBox({ name, value, tip }) {
   const classes = useStyles();
