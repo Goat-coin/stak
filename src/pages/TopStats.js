@@ -58,9 +58,19 @@ export default function() {
     bnbPonusPoolShareAmount,
     stakingEndSec,
   } = useStats();
-  
- 
-  
+
+    // const getApr = async () => {
+    //   try {
+    //     const rewardRate = await stakingContract.rewardRate();
+    //     const totalSupply = await stakingContract.totalSupply();
+    //     console.log("hello");
+    //     return "hello world";
+    //   } catch (e) {
+    //     console.log("hello");
+    //     // useNotifications.showErrorNotification(e);
+    //   }
+    // };
+
   const getReward = async () => {
     // if (!(lpContract && address)) return;
     try {
@@ -73,6 +83,7 @@ export default function() {
       //   );
       // }
       // setIsDepositing(true);
+      
       const tx = await stakingContract.getReward();
       // showTxNotification(`Depositing ${lpName}`, tx.hash);
       await tx.wait();
@@ -85,6 +96,11 @@ export default function() {
 
   const stats = React.useMemo(
     () => [
+      {
+        name: 'APR',
+        value: [`${toFixed(apy, 1, 2)}%`],
+        tip: 'APR is estimated for a new deposit over the next reward duration.',
+      },
       {
         name: 'Rewards Earned',
         value: [
