@@ -11,7 +11,6 @@ import { useWallet } from '../contexts/wallet';
 import { useStats } from '../contexts/stats';
 import { useNotifications } from '../contexts/notifications';
 import { Button } from '@material-ui/core';
-import Claim from './Claim';
 
 
 const useStyles = makeStyles(theme => ({
