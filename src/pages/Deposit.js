@@ -157,7 +157,7 @@ function GetLPTokens({ history }) {
           here
         </a>
         .
-      </Box>
+      </Box>    
 
       <Box mt={2}>
         <Button

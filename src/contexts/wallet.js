@@ -33,7 +33,7 @@ export function WalletProvider({ children }) {
   const [lpDecimals] = React.useState(18);
 
   const [goatAddress, setGoatAddress] = React.useState(null);
-  const [goatDecimals] = React.useState(9);
+  const [goatDecimals] = React.useState(18);
 
   const [wrappedBNBDecimals] = React.useState(18);
 

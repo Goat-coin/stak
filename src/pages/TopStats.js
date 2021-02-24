@@ -84,7 +84,7 @@ export default function() {
                   color="default"
                   variant="outlined"
                   onClick={getReward}
-                  disabled={!(lpContract && address)}
+                  // disabled={!(lpContract && address)}
               >
                 Claim Rewards
               </Button>
@@ -129,7 +129,7 @@ const getReward = async () => {
     //   );
     // }
     // setIsDepositing(true);
-    const tx = await useStats.stakingContract.getReward();
+    const tx = await stakingContract.getReward();
     // showTxNotification(`Depositing ${lpName}`, tx.hash);
     await tx.wait();
     // showTxNotification(`Deposited ${lpName}`, tx.hash);
