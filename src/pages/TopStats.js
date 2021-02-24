@@ -79,18 +79,14 @@ export default function() {
       //   );
       // }
       // setIsDepositing(true);
-      const tx = await useWallet.stakingContract.getReward();
+      const tx = await stakingContract.getReward();
       // showTxNotification(`Depositing ${lpName}`, tx.hash);
-      console.log(`TESTING ` + tx);
       await tx.wait();
       // showTxNotification(`Deposited ${lpName}`, tx.hash);
       // onSetDepositMaxAmount();
-      console.log(`TESTING ` + tx);
     } catch (e) {
       // useNotifications.showErrorNotification(e);
-      // console.log(`TESTINGingngs ` + e);
     }
-    console.log("test gwapo");
   };
 
   const stats = React.useMemo(
