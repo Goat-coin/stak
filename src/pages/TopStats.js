@@ -92,11 +92,6 @@ export default function() {
   const stats = React.useMemo(
     () => [
       {
-        name: 'APR',
-        value: [`${toFixed(apy, 1, 2)}%`],
-        tip: 'APR is estimated for a new deposit over the next 30 days.',
-      },
-      {
         name: 'Rewards Earned',
         value: [
           <div className="flex items-start flex-wrap">
