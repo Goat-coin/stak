@@ -238,33 +238,33 @@ export function StatsProvider({ children }) {
     )
       return;
     const [
-      totalStaked,
-      totalLockedShares,
-      unlockScheduleCount,
-      totalStakingShares,
-      totalLocked,
+      // totalStaked,
+      // totalLockedShares,
+      // unlockScheduleCount,
+      // totalStakingShares,
+      // totalLocked,
       noOfSchedules,
       totalSupply,
-      startBonus,
+      // startBonus,
       bonusPeriodSec,
       poolBNBBalance,
       poolGoatBalance,
       [bnbUSDPrice, goatUSDPrice],
     ] = await Promise.all([
-      stakingContract.totalStaked(),
-      stakingContract.totalLockedShares(),
-      stakingContract.unlockScheduleCount(),
-      stakingContract.totalStakingShares(),
-      stakingContract.totalLocked(),
-      stakingContract.unlockScheduleCount(),
+      // stakingContract.totalStaked(),
+      // stakingContract.totalLockedShares(),
+      // stakingContract.unlockScheduleCount(),
+      // stakingContract.totalStakingShares(),
+      // stakingContract.totalLocked(),
+      // stakingContract.unlockScheduleCount(),
       lpContract.totalSupply(),
-      stakingContract.startBonus(),
-      stakingContract.bonusPeriodSec(),
+      // stakingContract.startBonus(),
+      // stakingContract.bonusPeriodSec(),
       wrappedBNBContract.balanceOf(lpAddress),
       goatContract.balanceOf(lpAddress),
       getCoinUsdPrices(['wbnb', 'goat']),
-      stakingContract.totalLocked(),
-      stakingContract.unlockScheduleCount(),
+      // stakingContract.totalLocked(),
+      // stakingContract.unlockScheduleCount(),
     ]);
 
     const schedules = [];
@@ -272,7 +272,7 @@ export function StatsProvider({ children }) {
       for (let b = 0; b < noOfSchedules.toNumber(); b++) {
         const schedule = await stakingContract.unlockSchedules(b);
         schedules.push({
-          initialLockedShares: Big(schedule.initialLockedShares),
+          initialLockedShares: Big(schedule.initialLockedShares), 
           unlockedShares: Big(schedule.unlockedShares),
           lastUnlockTimestampSec: Big(schedule.lastUnlockTimestampSec),
           endAtSec: Big(schedule.endAtSec),
@@ -299,18 +299,18 @@ export function StatsProvider({ children }) {
   const loadUserStats = async () => {
     if (!(stakingContract && address)) return;
     const [
-      availableCakeRewards,
+      // availableCakeRewards,
       totalStakedFor,
-      [, , userStakingShareSeconds, totalStakingShareSeconds, totalUserRewards],
+      // [, , userStakingShareSeconds, totalStakingShareSeconds, totalUserRewards],
     ] = await Promise.all([
-      stakingContract.pendingCakeByUser(address),
-      stakingContract.totalStakedFor(address),
-      stakingContract.callStatic.updateAccounting(),
+      // stakingContract.pendingCakeByUser(address),
+      stakingContract.earned(address)
+      // stakingContract.callStatic.updateAccounting(),
     ]);
     const availableGoatRewards = totalStakedFor.isZero()
       ? '0'
       : await stakingContract.callStatic.unstakeQuery(totalStakedFor);
-    setAvailableCakeRewards(Big(availableCakeRewards));
+    // setAvailableCakeRewards(Big(availableCakeRewards));
     setTotalStakedFor(Big(totalStakedFor));
     setAvailableGoatRewards(Big(availableGoatRewards));
     setTotalStakingShareSeconds(Big(totalStakingShareSeconds));
@@ -318,35 +318,35 @@ export function StatsProvider({ children }) {
     setTotalUserRewards(Big(totalUserRewards));
   };
 
-  const subscribeToPoolStats = () => {
-    if (!stakingContract) return;
-    const stakedEvent = stakingContract.filters.Staked();
-    const unstakedEvent = stakingContract.filters.Unstaked();
-    stakingContract.on(stakedEvent, loadPoolStats);
-    stakingContract.on(unstakedEvent, loadPoolStats);
-    return () => {
-      stakingContract.off(stakedEvent, loadPoolStats);
-      stakingContract.off(unstakedEvent, loadPoolStats);
-    };
-  };
+  // const subscribeToPoolStats = () => {
+  //   if (!stakingContract) return;
+  //   const stakedEvent = stakingContract.filters.Staked();
+  //   const unstakedEvent = stakingContract.filters.Unstaked();
+  //   stakingContract.on(stakedEvent, loadPoolStats);
+  //   stakingContract.on(unstakedEvent, loadPoolStats);
+  //   return () => {
+  //     stakingContract.off(stakedEvent, loadPoolStats);
+  //     stakingContract.off(unstakedEvent, loadPoolStats);
+  //   };
+  // };
 
-  const subscribeToUserStats = () => {
-    if (!(stakingContract && address)) return;
-    const stakedEvent = stakingContract.filters.Staked();
-    const unstakedEvent = stakingContract.filters.Unstaked();
-    stakingContract.on(stakedEvent, loadUserStats);
-    stakingContract.on(unstakedEvent, loadUserStats);
-    const cid = setInterval(loadUserStats, 1000 * 30);
-    return () => {
-      stakingContract.off(stakedEvent, loadUserStats);
-      stakingContract.off(unstakedEvent, loadUserStats);
-      clearInterval(cid);
-    };
-  };
+  // const subscribeToUserStats = () => {
+  //   if (!(stakingContract && address)) return;
+  //   const stakedEvent = stakingContract.filters.Staked();
+  //   const unstakedEvent = stakingContract.filters.Unstaked();
+  //   stakingContract.on(stakedEvent, loadUserStats);
+  //   stakingContract.on(unstakedEvent, loadUserStats);
+  //   const cid = setInterval(loadUserStats, 1000 * 30);
+  //   return () => {
+  //     stakingContract.off(stakedEvent, loadUserStats);
+  //     stakingContract.off(unstakedEvent, loadUserStats);
+  //     clearInterval(cid);
+  //   };
+  // };
 
   React.useEffect(() => {
     loadPoolStats();
-    return subscribeToPoolStats(); // eslint-disable-next-line react-hooks/exhaustive-deps
+    // return subscribeToPoolStats(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     stakingContract,
     lpContract,
@@ -360,7 +360,7 @@ export function StatsProvider({ children }) {
 
   React.useEffect(() => {
     loadUserStats();
-    return subscribeToUserStats(); // eslint-disable-next-line react-hooks/exhaustive-deps
+    // return subscribeToUserStats(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingContract, address]);
 
   return (

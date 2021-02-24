@@ -11,10 +11,10 @@ export const IS_TESTNET = false; //~window.location.href.indexOf('testnet');
 export const NETWORKS = {
   56: {
     stakingAddress: ~window.location.href.indexOf('beta')
-      ? '0xEBB27125FdeAf15218DC4079C6528efB7f232019'
+      ? '0x7044326135a8f416dd4a1d48bc47f808879ed425'
       : ~window.location.href.indexOf('test')
-      ? '0x58673E13415Eb0443bd203ee48A554ac7462e673'
-      : '0x27Da7Bc5CcB7c31baaeEA8a04CC8Bf0085017208',
+      ? '0x7044326135a8f416dd4a1d48bc47f808879ed425'
+      : '0x7044326135a8f416dd4a1d48bc47f808879ed425',
     drops:
       ~window.location.href.indexOf('localhost') ||
       ~window.location.href.indexOf('test')
@@ -43,7 +43,7 @@ export const EMPTY_CALL_DATA =
 
 export const ROUTER_BASE_NAME = process.env.REACT_APP_ROUTER_BASE_NAME;
 
-export const SECONDARY_COLOR = '#ed7ac0';
+export const SECONDARY_COLOR = '#ffa132';
 
 export const NETWORK = NETWORKS[NETWORK_CHAIN_ID];
 

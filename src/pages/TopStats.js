@@ -9,6 +9,8 @@ import { formatUnits, toFixed, isZero } from '../utils/big-number';
 import Paper from '../components/Paper';
 import { useWallet } from '../contexts/wallet';
 import { useStats } from '../contexts/stats';
+import { useNotifications } from '../contexts/notifications';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -45,15 +47,21 @@ const useStyles = makeStyles(theme => ({
 
 export default function() {
   const classes = useStyles();
-  const { goatDecimals, cakeDecimals, wrappedBNBDecimals } = useWallet();
+  const { goatDecimals, wrappedBNBDecimals } = useWallet();
   const {
     apy,
     availableGoatRewards,
-    availableCakeRewards,
     rewardMultiplier,
     bnbPonusPoolSharePercentage,
     bnbPonusPoolShareAmount,
     stakingEndSec,
+    lpContract,
+    address,
+    stakingContract,
+    showTxNotification,
+    lpName,
+    onSetDepositMaxAmount,
+    showErrorNotification
   } = useStats();
 
   const stats = React.useMemo(
@@ -66,23 +74,31 @@ export default function() {
       {
         name: 'Rewards Earned',
         value: [
-          <div className="flex items-center">
+          <div className="flex items-start flex-wrap">
             {formatUnits(availableGoatRewards, goatDecimals)} GOAT
             <Box ml={1} className="flex items-center">
               <img src="coins/GOAT.png" alt="GOAT" width={15} height={15} />
             </Box>
+
+              <Button
+                  color="default"
+                  variant="outlined"
+                  onClick={getReward}
+                  disabled={!(lpContract && address)}
+              >
+                Claim Rewards
+              </Button>
+              
           </div>
         ],
         tip:
-          'Amount of GOAT rewards you will receive on unstaking. Note that unstaking resets your multiplier.',
+          'Amount of GOAT rewards you will receive on unstaking.',
       },
     ],
     [
       apy,
       availableGoatRewards,
-      availableCakeRewards,
       goatDecimals,
-      cakeDecimals,
       wrappedBNBDecimals,
       rewardMultiplier,
       bnbPonusPoolShareAmount,
@@ -101,6 +117,27 @@ export default function() {
     </Box>
   );
 }
+
+const getReward = async () => {
+  // if (!(lpContract && address)) return;
+  try {
+    // if (depositAmount.isZero())
+    //   return showErrorNotification('Enter deposit amount.');
+    // if (!depositMaxAmount && depositAmount.gt(maxDepositAmount)) {
+    //   return showErrorNotification(
+    //     'You are trying to deposit more than your actual balance.'
+    //   );
+    // }
+    // setIsDepositing(true);
+    const tx = await useStats.stakingContract.getReward();
+    // showTxNotification(`Depositing ${lpName}`, tx.hash);
+    await tx.wait();
+    // showTxNotification(`Deposited ${lpName}`, tx.hash);
+    // onSetDepositMaxAmount();
+  } catch (e) {
+    useNotifications.showErrorNotification(e);
+  } 
+};
 
 function StatBox({ name, value, tip }) {
   const classes = useStyles();

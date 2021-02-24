@@ -158,8 +158,8 @@ export function WalletProvider({ children }) {
 
   async function load() {
     const [lpAddress, goatAddress] = await Promise.all([
-      stakingContract.stakingToken(),
-      stakingContract.getDistributionToken(),
+      stakingContract.stakingToken,
+      stakingContract.rewardsToken,
       connectToCached(),
     ]);
     setLpAddress(lpAddress);

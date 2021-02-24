@@ -53,15 +53,6 @@ export default function App() {
     <Box className={classes.container}>
       <Router basename={ROUTER_BASE_NAME}>
         <Header />
-        {!hasPendingBonusClaim ? null : (
-          <Box className={clsx('text-center', classes.announcement)}>
-            You are eligible for a bonus! Claim it{' '}
-            <Link to={'/bonus'} className={classes.announcement}>
-              here
-            </Link>
-            .
-          </Box>
-        )}
         <TopStats />
         <Paper className={classes.paper}>
           <Nav />

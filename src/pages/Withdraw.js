@@ -54,7 +54,6 @@ export default function() {
     lpContract,
     lpDecimals,
     goatDecimals,
-    cakeDecimals,
     lpName,
   } = useWallet();
   const { availableGoatRewards, availableCakeRewards } = useStats();
@@ -98,7 +97,7 @@ export default function() {
         );
       }
       setIsWithdrawing(true);
-      const tx = await stakingContract.unstake(withdrawAmount, EMPTY_CALL_DATA);
+      const tx = await stakingContract.exit();
       showTxNotification(`Withdrawing ${lpName}`, tx.hash);
       await tx.wait();
       showTxNotification(`Withdrew ${lpName}`, tx.hash);
@@ -117,7 +116,7 @@ export default function() {
 
   const onSetWithdrawMaxAmount = async () => {
     if (!(stakingContract && address)) return;
-    const totalStakedFor = await stakingContract.totalStakedFor(address);
+    const totalStakedFor = await stakingContract.balanceOf(address);
     setTotalStakedFor(totalStakedFor);
     setInputAmount(formatUnits(totalStakedFor, 18, 18));
     setWithdrawMaxAmount(true);

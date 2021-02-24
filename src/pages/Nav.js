@@ -57,14 +57,6 @@ export default withRouter(function() {
           Withdraw
         </Link>
 
-        <Link
-          to="/stats"
-          className={clsx(classes.link, {
-            [classes.active]: isStats,
-          })}
-        >
-          Stats
-        </Link>
       </div>
     </div>
   );

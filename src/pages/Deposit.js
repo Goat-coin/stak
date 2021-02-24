@@ -1,12 +1,12 @@
 import React from 'react';
 import * as ethers from 'ethers';
-// import clsx from 'clsx';
-// import moment from 'moment';
+import clsx from 'clsx';
+import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import { withRouter, Switch, Route, Redirect } from 'react-router-dom';
 import {
   Box,
-  // Paper,
+  Paper,
   Button,
   TextField,
   Stepper,
@@ -252,7 +252,7 @@ function Deposit() {
         );
       }
       setIsDepositing(true);
-      const tx = await stakingContract.stake(depositAmount, EMPTY_CALL_DATA);
+      const tx = await stakingContract.stake(depositAmount);
       showTxNotification(`Depositing ${lpName}`, tx.hash);
       await tx.wait();
       showTxNotification(`Deposited ${lpName}`, tx.hash);
@@ -398,14 +398,6 @@ function Deposit() {
           </Box>
         </div>
       )}
-
-      {/* <Box mt={2}>
-        <Paper className={clsx(classes.rewards)}>
-          <div>Your Estimated Rewards:</div>
-          <div>{toFixed(monthlyGoatRewards, 1)} DITTO / month,</div>
-          <div>plus CAKE depending on Pancakeswap emission.</div>
-        </Paper>
-      </Box> */}
 
       <Box mt={2}>
         <Button
