@@ -268,9 +268,7 @@ export function StatsProvider({ children }) {
       stakingContract.earned(address)
       // stakingContract.callStatic.updateAccounting(),
     ]);
-    const availableGoatRewards = totalStakedFor.isZero()
-      ? '0'
-      : await stakingContract.callStatic.unstakeQuery(totalStakedFor);
+    const availableGoatRewards = 0
     // setAvailableCakeRewards(Big(availableCakeRewards));
     setTotalStakedFor(Big(totalStakedFor));
     setAvailableGoatRewards(Big(availableGoatRewards));
