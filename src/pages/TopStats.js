@@ -108,6 +108,11 @@ export default function() {
         tip:
           'Amount of GOAT rewards you will receive on claiming.',
       },
+      {
+        name: 'Reward per token for 50 days',
+        value: [`${toFixed(apy, 1, 2)}%`],
+        tip: 'APR is estimated for a new deposit over the next 30 days.',
+      },
     ],
     [
       apy,

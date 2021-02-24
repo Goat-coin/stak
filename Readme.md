@@ -19,6 +19,9 @@ $ yarn install
 or
 $ npm install
 
+# nstall a project with a clean slate
+$ npm ci
+
 # build for production and launch server
 $ yarn build
 $ npm run build
