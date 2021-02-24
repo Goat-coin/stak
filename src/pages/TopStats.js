@@ -45,6 +45,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const { stakingContract, address, lpContract } = useWallet();
+
+const { availableGoatRewards } = useStats();
+
 export default function() {
   const classes = useStyles();
   const { goatDecimals, wrappedBNBDecimals } = useWallet();
@@ -75,7 +79,7 @@ export default function() {
         name: 'Rewards Earned',
         value: [
           <div className="flex items-start flex-wrap">
-            {formatUnits(checkClaimableRewards(), goatDecimals)} GOAT
+            {formatUnits(availableGoatRewards, goatDecimals)} GOAT
             <Box ml={1} className="flex items-center">
               <img src="coins/GOAT.png" alt="GOAT" width={15} height={15} />
             </Box>
@@ -92,7 +96,7 @@ export default function() {
           </div>
         ],
         tip:
-          'Amount of GOAT rewards you will receive on unstaking.',
+          'Amount of GOAT rewards you will receive on claiming.',
       },
     ],
     [
@@ -118,28 +122,8 @@ export default function() {
   );
 }
 
-const checkClaimableRewards = async () => {
-  if (!(stakingContract && address)) return;
-  const [
-    // availableCakeRewards,
-    totalStakedFor,
-    // [, , userStakingShareSeconds, totalStakingShareSeconds, totalUserRewards],
-  ] = await Promise.all([
-    // stakingContract.pendingCakeByUser(address),
-    stakingContract.earned(address)
-    // stakingContract.callStatic.updateAccounting(),
-  ]);
-  const availableGoatRewards = totalStakedFor.isZero()
-    ? '0'
-    : await stakingContract.callStatic.unstakeQuery(totalStakedFor);
-  // setAvailableCakeRewards(Big(availableCakeRewards));
-
-  return (Big(availableGoatRewards));
-
-};
-
 const getReward = async () => {
-  // if (!(lpContract && address)) return;
+  if (!(lpContract && address)) return;
   try {
 
     const tx = await stakingContract.getReward();

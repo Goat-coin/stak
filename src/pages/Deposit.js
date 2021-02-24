@@ -187,15 +187,15 @@ function Deposit() {
     lpAddress,
   } = useWallet();
 
-  // const {
-  //   monthlyUnlockRate,
-  //   totalStakingShares,
-  //   totalStaked,
-  //   totalStakingShareSeconds,
-  //   totalStakedFor,
-  //   userStakingShareSeconds,
-  //   stakingEndSec,
-  // } = useStats();
+  const {
+    monthlyUnlockRate,
+    totalStakingShares,
+    totalStaked,
+    totalStakingShareSeconds,
+    totalStakedFor,
+    userStakingShareSeconds,
+    stakingEndSec,
+  } = useStats();
 
   const [isApproving, setIsApproving] = React.useState(false);
   const [isApproved, setIsApproved] = React.useState(false);
