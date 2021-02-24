@@ -109,8 +109,16 @@ export default function() {
           'Amount of GOAT rewards you will receive on claiming.',
       },
       {
-        name: 'Reward per token for 50 days',
-        value: [`${toFixed(apy, 1, 2)}%`],
+        name: 'Reward per 1 token for 50 days',
+        value: [
+          <div>
+            {`${toFixed(apy, 1, 2)}%`} Goat coin
+          </div>,
+          <div className="flex items-start flex-wrap">
+            <div className="text-sm">Remaining Tokens</div>
+            <div>0.123456789000000000</div>
+          </div>,
+        ],
         tip: 'APR is estimated for a new deposit over the next 30 days.',
       },
     ],
