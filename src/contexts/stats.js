@@ -279,8 +279,8 @@ export function StatsProvider({ children }) {
 
   // const subscribeToPoolStats = () => {
   //   if (!stakingContract) return;
-  //   const stakedEvent = stakingContract.filters.Staked();
-  //   const unstakedEvent = stakingContract.filters.Unstaked();
+  //   const stakedEvent = stakingContract.filters.Stake();
+  //   const unstakedEvent = stakingContract.filters.Withdrawn();
   //   stakingContract.on(stakedEvent, loadPoolStats);
   //   stakingContract.on(unstakedEvent, loadPoolStats);
   //   return () => {
@@ -291,8 +291,8 @@ export function StatsProvider({ children }) {
 
   // const subscribeToUserStats = () => {
   //   if (!(stakingContract && address)) return;
-  //   const stakedEvent = stakingContract.filters.Staked();
-  //   const unstakedEvent = stakingContract.filters.Unstaked();
+  //   const stakedEvent = stakingContract.filters.Stake();
+  //   const unstakedEvent = stakingContract.filters.Withdrawn();
   //   stakingContract.on(stakedEvent, loadUserStats);
   //   stakingContract.on(unstakedEvent, loadUserStats);
   //   const cid = setInterval(loadUserStats, 1000 * 30);
@@ -300,7 +300,7 @@ export function StatsProvider({ children }) {
   //     stakingContract.off(stakedEvent, loadUserStats);
   //     stakingContract.off(unstakedEvent, loadUserStats);
   //     clearInterval(cid);
-  //   };
+  //   }; 
   // };
 
   React.useEffect(() => {

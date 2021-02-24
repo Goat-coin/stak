@@ -26,7 +26,7 @@ import {
 import { BORDER_RADIUS, EMPTY_CALL_DATA } from '../config';
 import ERC20_CONTRACT_ABI from '../abis/erc20.json';
 import sleep from '../utils/sleep';
-// import { useStats } from 'contexts/stats';
+// import { useStats } from '../contexts/stats';
 
 export const useStyles = makeStyles(theme => ({
   container: {
@@ -157,7 +157,7 @@ function GetLPTokens({ history }) {
           here
         </a>
         .
-      </Box>
+      </Box>    
 
       <Box mt={2}>
         <Button
@@ -187,16 +187,16 @@ function Deposit() {
     lpAddress,
   } = useWallet();
 
-  // const {
-  //   monthlyUnlockRate,
-  //   totalStakingShares,
-  //   totalStaked,
-  //   totalStakingShareSeconds,
-  //   totalStakedFor,
-  //   userStakingShareSeconds,
-  //   stakingEndSec,
-  // } = useStats();
-
+ /* const {
+    monthlyUnlockRate,
+    totalStakingShares,
+    totalStaked,
+    totalStakingShareSeconds,
+    totalStakedFor,
+    userStakingShareSeconds,
+    stakingEndSec,
+  } = useStats();
+*/
   const [isApproving, setIsApproving] = React.useState(false);
   const [isApproved, setIsApproved] = React.useState(false);
   const [isDepositing, setIsDepositing] = React.useState(false);

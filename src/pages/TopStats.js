@@ -46,6 +46,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+/*const { stakingContract, address, lpContract } = useWallet();
+
+const { availableGoatRewards } = useStats();*/
+
 export default function() {
   const classes = useStyles();
   const { goatDecimals, wrappedBNBDecimals, stakingContract, address } = useWallet();
@@ -82,16 +86,12 @@ export default function() {
       // setIsDepositing(true);
       const tx = await stakingContract.getReward();
       // showTxNotification(`Depositing ${lpName}`, tx.hash);
-      console.log(`TESTING ` + tx);
       await tx.wait();
       // showTxNotification(`Deposited ${lpName}`, tx.hash);
       // onSetDepositMaxAmount();
-      console.log(`TESTING ` + tx);
     } catch (e) {
       // useNotifications.showErrorNotification(e);
-      // console.log(`TESTINGingngs ` + e);
     }
-    // console.log("test gwapo");
   };
 
   const stats = React.useMemo(
@@ -122,7 +122,7 @@ export default function() {
           </div>
         ],
         tip:
-          'Amount of GOAT rewards you will receive on unstaking.',
+          'Amount of GOAT rewards you will receive on claiming.',
       },
     ],
     [
@@ -147,8 +147,6 @@ export default function() {
     </Box>
   );
 }
-
-
 
 function StatBox({ name, value, tip }) {
   const classes = useStyles();
