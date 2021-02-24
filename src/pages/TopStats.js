@@ -61,7 +61,7 @@ export default function() {
   const earnedGoatRewards = async () => {
     try {
       const rewards = await stakingContract.earned(address);
-      console.log(rewards);
+      console.log("nara ko diri");
       return rewards;
     } catch (e) {
       // useNotifications.showErrorNotification(e);
@@ -71,6 +71,7 @@ export default function() {
   const getReward = async () => {
     // if (!(lpContract && address)) return;
     try {
+      
       // if (depositAmount.isZero())
       //   return showErrorNotification('Enter deposit amount.');
       // if (!depositMaxAmount && depositAmount.gt(maxDepositAmount)) {
@@ -79,7 +80,7 @@ export default function() {
       //   );
       // }
       // setIsDepositing(true);
-      const tx = await useWallet.stakingContract.getReward();
+      const tx = await stakingContract.getReward();
       // showTxNotification(`Depositing ${lpName}`, tx.hash);
       console.log(`TESTING ` + tx);
       await tx.wait();
@@ -90,7 +91,7 @@ export default function() {
       // useNotifications.showErrorNotification(e);
       // console.log(`TESTINGingngs ` + e);
     }
-    console.log("test gwapo");
+    // console.log("test gwapo");
   };
 
   const stats = React.useMemo(
