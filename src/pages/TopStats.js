@@ -46,13 +46,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-/*const { stakingContract, address, lpContract } = useWallet();
-
-const { availableGoatRewards } = useStats();*/
 
 export default function() {
   const classes = useStyles();
-  const { goatDecimals, wrappedBNBDecimals, stakingContract, address } = useWallet();
+  const { goatDecimals, wrappedBNBDecimals, stakingContract, address, lpContract } = useWallet();
   const {
     apy,
     availableGoatRewards,
@@ -61,16 +58,8 @@ export default function() {
     bnbPonusPoolShareAmount,
     stakingEndSec,
   } = useStats();
-
-  const earnedGoatRewards = async () => {
-    try {
-      const rewards = await stakingContract.earned(address);
-      console.log("nara ko diri");
-      return rewards;
-    } catch (e) {
-      // useNotifications.showErrorNotification(e);
-    } 
-  };
+  
+ 
   
   const getReward = async () => {
     // if (!(lpContract && address)) return;
@@ -100,7 +89,7 @@ export default function() {
         name: 'Rewards Earned',
         value: [
           <div className="flex items-start flex-wrap">
-            {earnedGoatRewards} GOAT
+            {formatUnits(availableGoatRewards, goatDecimals)} GOAT
             <Box ml={1} className="flex items-center">
               <img src="coins/GOAT.png" alt="GOAT" width={15} height={15} />
             </Box>
