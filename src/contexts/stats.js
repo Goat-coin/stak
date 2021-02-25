@@ -268,9 +268,7 @@ export function StatsProvider({ children }) {
       stakingContract.earned(address)
       // stakingContract.callStatic.updateAccounting(),
     ]);
-    const availableGoatRewards = totalStakedFor.isZero()
-      ? '0'
-      : await stakingContract.callStatic.unstakeQuery(totalStakedFor);
+    const availableGoatRewards = 0
     // setAvailableCakeRewards(Big(availableCakeRewards));
     setTotalStakedFor(Big(totalStakedFor));
     setAvailableGoatRewards(Big(availableGoatRewards));
@@ -278,6 +276,10 @@ export function StatsProvider({ children }) {
     setUserStakingShareSeconds(Big(userStakingShareSeconds));
     setTotalUserRewards(Big(totalUserRewards));
   };
+
+  
+  // const [earnedReward, setEarnedReward] = React.useState(0);
+  // const [isLoaded, setIsLoaded] = React.useState(false);
 
   // const subscribeToPoolStats = () => {
   //   if (!stakingContract) return;
@@ -354,6 +356,9 @@ export function StatsProvider({ children }) {
         rewardMultiplier,
         bnbPonusPoolSharePercentage,
         bnbPonusPoolShareAmount,
+
+        // earnedReward,
+        // isLoaded
       }}
     >
       {children}

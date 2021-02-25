@@ -12,6 +12,7 @@ import { useStats } from '../contexts/stats';
 import { useNotifications } from '../contexts/notifications';
 import { Button } from '@material-ui/core';
 
+
 const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: 14,
@@ -45,13 +46,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const { stakingContract, address, lpContract } = useWallet();
-
-const { availableGoatRewards } = useStats();
 
 export default function() {
   const classes = useStyles();
-  const { goatDecimals, wrappedBNBDecimals, stakingContract, address } = useWallet();
+  const { goatDecimals, wrappedBNBDecimals, stakingContract, address, lpContract } = useWallet();
   const {
     apy,
     availableGoatRewards,
@@ -60,20 +58,28 @@ export default function() {
     bnbPonusPoolShareAmount,
     stakingEndSec,
   } = useStats();
+  const [earnedReward, setEarnedReward] = React.useState(0);
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
-  const earnedGoatRewards = async () => {
+
+  const getEarned = async () => {
     try {
-      const rewards = await stakingContract.earned(address);
-      console.log(rewards);
-      return rewards;
+      const earnedReward = await stakingContract.earned(address);
+      // const totalSupply = await stakingContract.totalSupply();
+      return formatUnits(earnedReward, goatDecimals, 12);
     } catch (e) {
+      return 0;
+      // getEarned();
       // useNotifications.showErrorNotification(e);
-    } 
+    }
   };
-  
+
+    
+
   const getReward = async () => {
     // if (!(lpContract && address)) return;
     try {
+      
       // if (depositAmount.isZero())
       //   return showErrorNotification('Enter deposit amount.');
       // if (!depositMaxAmount && depositAmount.gt(maxDepositAmount)) {
@@ -82,28 +88,34 @@ export default function() {
       //   );
       // }
       // setIsDepositing(true);
-      const tx = await useStats.stakingContract.getReward();
+      // const rewardRate1 = await stakingContract.rewardRate;
+      // console.log(address);
+      
+      // console.log(rewardRate1)
+      
+      const tx = await stakingContract.getReward();
+      
       // showTxNotification(`Depositing ${lpName}`, tx.hash);
       await tx.wait();
       // showTxNotification(`Deposited ${lpName}`, tx.hash);
       // onSetDepositMaxAmount();
     } catch (e) {
-      useNotifications.showErrorNotification(e);
-    } 
+      // useNotifications.showErrorNotification(e);
+    }
   };
 
   const stats = React.useMemo(
     () => [
-      {
-        name: 'APR',
-        value: [`${toFixed(apy, 1, 2)}%`],
-        tip: 'APR is estimated for a new deposit over the next 30 days.',
-      },
+      // {
+      //   name: 'APR',
+      //   value: [`${toFixed(apy, 1, 2)}%`],
+      //   tip: 'APR is estimated for a new deposit over the next reward duration.',
+      // },
       {
         name: 'Rewards Earned',
         value: [
           <div className="flex items-start flex-wrap">
-            {earnedGoatRewards} GOAT
+            {isLoaded ? `${earnedReward} GOAT` : 'calculating'}
             <Box ml={1} className="flex items-center">
               <img src="coins/GOAT.png" alt="GOAT" width={15} height={15} />
             </Box>
@@ -123,19 +135,27 @@ export default function() {
           'Amount of GOAT rewards you will receive on claiming.',
       },
     ],
-    [
-      apy,
-      availableGoatRewards,
-      goatDecimals,
-      wrappedBNBDecimals,
-      rewardMultiplier,
-      bnbPonusPoolShareAmount,
-      bnbPonusPoolSharePercentage,
-      stakingEndSec,
-      classes.small,
-      classes.link,
-    ]
+    // [
+    //   apy,
+    //   availableGoatRewards,
+    //   goatDecimals,
+    //   wrappedBNBDecimals,
+    //   rewardMultiplier,
+    //   bnbPonusPoolShareAmount,
+    //   bnbPonusPoolSharePercentage,
+    //   stakingEndSec,
+    //   classes.small,
+    //   classes.link,
+    // ]
   );
+
+  if (!isLoaded && address) {
+    // console.log(address);
+    getEarned().then(response => {
+      setEarnedReward(response);
+      setIsLoaded(true);
+    });
+  }
 
   return (
     <Box className={clsx(classes.container)}>

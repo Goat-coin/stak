@@ -46,6 +46,20 @@ export const useStyles = makeStyles(theme => ({
 export default function() {
   const classes = useStyles();
 
+  const [earnedReward, setEarnedReward] = React.useState(0);
+  const [isLoaded, setIsLoaded] = React.useState(false);
+
+  const getEarned = async () => {
+    try {
+      const earnedReward = await stakingContract.earned(address);
+      // const totalSupply = await stakingContract.totalSupply();
+      return formatUnits(earnedReward, goatDecimals, 12);
+    } catch (e) {
+      return 0;
+      // useNotifications.showErrorNotification(e);
+    }
+  };
+
   const {
     startConnecting: startConnectingWallet,
     signer,
@@ -127,6 +141,14 @@ export default function() {
     onSetWithdrawMaxAmount();
   }, [stakingContract, address]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  if (!isLoaded && address) {
+    // console.log(address);
+    getEarned().then(response => {
+      setEarnedReward(response);
+      setIsLoaded(true);
+    });
+  }
+
   return (
     <div className={classes.container}>
       {!lpName ? null : (
@@ -176,7 +198,7 @@ export default function() {
 
         <Paper className={clsx(classes.rewards)}>
           <div>Rewards Earned:</div>
-          <div>{formatUnits(availableGoatRewards, goatDecimals)} GOAT</div>
+          <div>{isLoaded ? `${earnedReward} GOAT` : 'calculating'}</div>
         </Paper>
       </Box>
 
