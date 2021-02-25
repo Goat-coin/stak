@@ -397,6 +397,7 @@ export function StatsProvider({ children }) {
 
         rewardPerToken,
         getRewardForDuration,
+        setRewardEarned,
 
         apy,
         hourlyUnlockRate,
@@ -441,6 +442,7 @@ export function useStats() {
 
     rewardPerToken,
     getRewardForDuration,
+    setRewardEarned,
 
     apy,
     hourlyUnlockRate,
@@ -475,6 +477,7 @@ export function useStats() {
 
     rewardPerToken,
     getRewardForDuration,
+    setRewardEarned,
 
     apy,
     hourlyUnlockRate,

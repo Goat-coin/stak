@@ -52,46 +52,36 @@ export default function() {
   const { goatDecimals, wrappedBNBDecimals, stakingContract, address, lpContract } = useWallet();
   const {
     apy,
-    availableGoatRewards,
     rewardMultiplier,
     bnbPonusPoolSharePercentage,
     bnbPonusPoolShareAmount,
     stakingEndSec,
     rewardPerToken,
     getRewardForDuration,
-    rewardEarned
+    rewardEarned,
+    setRewardEarned
   } = useStats();
   
+  const { showTxNotification, showErrorNotification } = useNotifications();
  
   
   const getReward = async () => {
-    // if (!(lpContract && address)) return;
+     if (!(lpContract && address)) return;
     try {
-      
-      // if (depositAmount.isZero())
-      //   return showErrorNotification('Enter deposit amount.');
-      // if (!depositMaxAmount && depositAmount.gt(maxDepositAmount)) {
-      //   return showErrorNotification(
-      //     'You are trying to deposit more than your actual balance.'
-      //   );
-      // }
-      // setIsDepositing(true);
-      // const rewardRate1 = await stakingContract.rewardRate;
-      // console.log(address);
-      
-      // console.log(rewardRate1)
       
       const tx = await stakingContract.getReward();
       
-      // showTxNotification(`Depositing ${lpName}`, tx.hash);
+      showTxNotification(`Claiming reward`, tx.hash);
       await tx.wait();
-      // showTxNotification(`Deposited ${lpName}`, tx.hash);
-      // onSetDepositMaxAmount();
+      showTxNotification(`Reward claimed`, tx.hash);
+      setRewardEarned(0);
+      
     } catch (e) {
-      // useNotifications.showErrorNotification(e);
+      showErrorNotification(e);
+      throw e;
     }
   };
-
+  
   const stats = React.useMemo(
     () => [
       // {
@@ -122,23 +112,22 @@ export default function() {
         tip:
           '',
       },
-      {
-        name: 'Reward per 1 token for 50 days',
-        value: [
-          <div>
-            {formatUnits(rewardPerToken, goatDecimals)} Goat
-          </div>,
-          <div>
-            <div className="text-sm">Remaining Tokens</div>
-            <div>{formatUnits(getRewardForDuration, goatDecimals, 13)}</div>
-          </div>,
-        ],
-        tip: '',
-      },
+      // {
+      //   name: 'Reward per 1 token for 50 days',
+      //   value: [
+      //     <div>
+      //       {formatUnits(rewardPerToken, goatDecimals)} Goat
+      //     </div>,
+      //     <div>
+      //       <div className="text-sm">Remaining Tokens</div>
+      //       <div>{formatUnits(getRewardForDuration, goatDecimals, 13)}</div>
+      //     </div>,
+      //   ],
+      //   tip: '',
+      // },
     ],
     [
       apy,
-      availableGoatRewards,
       goatDecimals,
       wrappedBNBDecimals,
       rewardMultiplier,
