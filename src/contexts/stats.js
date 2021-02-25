@@ -40,6 +40,9 @@ export function StatsProvider({ children }) {
   const [schedules, setUnlockSchedules] = React.useState([]);
   const [bnbUSDPrice, setBNBUSDPrice] = React.useState(Big('0'));
   const [goatUSDPrice, setGoatUSDPrice] = React.useState(Big('0'));
+  const [rewardPerToken, setRewardPerToken] = React.useState(Big('0'));
+  // const rewardsDuration = stakingContract.rewardsDuration;
+  const [getRewardForDuration, setRemainingReward] = React.useState(Big('0'));
 
   // user
 
@@ -242,11 +245,16 @@ export function StatsProvider({ children }) {
       poolBNBBalance,
       poolGoatBalance,
       [bnbUSDPrice, goatUSDPrice],
+      rewardPerToken,
+      getRewardForDuration
+      
     ] = await Promise.all([
       lpContract.totalSupply(),
       wrappedBNBContract.balanceOf(lpAddress),
       goatContract.balanceOf(lpAddress),
       getCoinUsdPrices(['wbnb', 'goat']),
+      stakingContract.rewardPerToken(),
+      stakingContract.getRewardForDuration()
     ]);
 
 
@@ -255,6 +263,8 @@ export function StatsProvider({ children }) {
     setPoolGoatBalance(Big(poolGoatBalance));
     setBNBUSDPrice(Big(bnbUSDPrice));
     setGoatUSDPrice(Big(goatUSDPrice));
+    setRewardPerToken(Big(rewardPerToken));
+    setRemainingReward(Big(getRewardForDuration));
   };
 
   const loadUserStats = async () => {
@@ -347,6 +357,9 @@ export function StatsProvider({ children }) {
         totalStakingShareSeconds,
         userStakingShareSeconds,
 
+        rewardPerToken,
+        getRewardForDuration,
+
         apy,
         hourlyUnlockRate,
         totalUSDDeposits,
@@ -387,6 +400,9 @@ export function useStats() {
     totalStakingShareSeconds,
     userStakingShareSeconds,
 
+    rewardPerToken,
+    getRewardForDuration,
+
     apy,
     hourlyUnlockRate,
     totalUSDDeposits,
@@ -416,6 +432,9 @@ export function useStats() {
     totalStakedFor,
     totalStakingShareSeconds,
     userStakingShareSeconds,
+
+    rewardPerToken,
+    getRewardForDuration,
 
     apy,
     hourlyUnlockRate,

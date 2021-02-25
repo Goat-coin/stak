@@ -57,9 +57,21 @@ export default function() {
     bnbPonusPoolSharePercentage,
     bnbPonusPoolShareAmount,
     stakingEndSec,
+    rewardPerToken,
+    getRewardForDuration
   } = useStats();
   
- 
+  const getApr = async () => {
+    try {
+      const rewardRate = await stakingContract.rewardRate;
+      const totalSupply = await stakingContract.totalSupply();
+      console.log("hello");
+      return "hello world";
+    } catch (e) {
+      console.log("hello");
+      // useNotifications.showErrorNotification(e);
+    }
+  };
   
   const getReward = async () => {
     // if (!(lpContract && address)) return;
@@ -86,6 +98,11 @@ export default function() {
   const stats = React.useMemo(
     () => [
       {
+        name: 'APR',
+        value: [`${toFixed(apy, 1, 2)}%`],
+        tip: 'APR is estimated for a new deposit over the next 30 days.',
+      },
+      {
         name: 'Rewards Earned',
         value: [
           <div className="flex items-start flex-wrap">
@@ -106,20 +123,20 @@ export default function() {
           </div>
         ],
         tip:
-          'Amount of GOAT rewards you will receive on claiming.',
+          '',
       },
       {
         name: 'Reward per 1 token for 50 days',
         value: [
           <div>
-            {`${toFixed(apy, 1, 2)}%`} Goat coin
+            {formatUnits(rewardPerToken, goatDecimals)} Goat
           </div>,
-          <div className="flex items-start flex-wrap">
+          <div>
             <div className="text-sm">Remaining Tokens</div>
-            <div>0.123456789000000000</div>
+            <div>{formatUnits(getRewardForDuration, goatDecimals)}</div>
           </div>,
         ],
-        tip: 'APR is estimated for a new deposit over the next 30 days.',
+        tip: '',
       },
     ],
     [
