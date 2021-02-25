@@ -101,15 +101,18 @@ export default function() {
         name: 'Rewards Earned',
         value: [
           <div className="flex items-start flex-wrap">
-            {formatUnits(availableGoatRewards, goatDecimals)} GOAT
-            <Box ml={1} className="flex items-center">
-              <img src="coins/GOAT.png" alt="GOAT" width={15} height={15} />
-            </Box>
+            <div className="flex items-end">
+              {formatUnits(availableGoatRewards, goatDecimals)} GOAT
+              <Box ml={1}>
+                <img src="coins/GOAT.png" alt="GOAT" width={15} height={15} />
+              </Box>
+            </div>
 
               <Button
                   color="default"
                   variant="outlined"
                   onClick={getReward}
+                  className="full-width mt-8"
                   // disabled={!(lpContract && address)}
               >
                 Claim Rewards
@@ -121,10 +124,10 @@ export default function() {
           '',
       },
       {
-        name: 'Reward per 1 token for 50 days',
+        name: 'Reward per 1 LP token for 50 days',
         value: [
           <div>
-            {formatUnits(rewardPerToken, goatDecimals)} Goat
+            {formatUnits(rewardPerToken, 20)} Goat
           </div>,
           <div>
             <div className="text-sm">Remaining Tokens</div>
