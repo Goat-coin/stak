@@ -42,13 +42,16 @@ export function StatsProvider({ children }) {
   const [schedules, setUnlockSchedules] = React.useState([]);
   const [bnbUSDPrice, setBNBUSDPrice] = React.useState(Big('0'));
   const [goatUSDPrice, setGoatUSDPrice] = React.useState(Big('0'));
+  const [rewardPerToken, setRewardPerToken] = React.useState(Big('0'));
+  // const rewardsDuration = stakingContract.rewardsDuration;
+  const [getRewardForDuration, setRemainingReward] = React.useState(Big('0'));
 
   
   
   // user
-  const [availableGoatRewards, setAvailableGoatRewards] = React.useState(
-    Big('0')
-  );
+  // const [availableGoatRewards, setAvailableGoatRewards] = React.useState(
+  //   Big('0')
+  // );
   const [availableCakeRewards, setAvailableCakeRewards] = React.useState(
     Big('0')
   );
@@ -203,7 +206,8 @@ export function StatsProvider({ children }) {
       maxMultiplier,
       minMultiplier,
     };
-    const p = availableGoatRewards;
+    //const p = availableGoatRewards;
+    const p = 0;
     const m = totalUserRewards;
     let w = e.startBonus;
     const z = isZero(totalUserRewards) ? Big('1') : p.div(m);
@@ -231,7 +235,7 @@ export function StatsProvider({ children }) {
     //   }, {})
     // );
     return S;
-  }, [startBonus, totalUserRewards, availableGoatRewards]);
+  }, [startBonus, totalUserRewards]);
 
   const bnbPonusPoolSharePercentage = React.useMemo(() => {
     if (isZero(totalStakingShareSeconds)) return Big('0');
@@ -259,11 +263,16 @@ export function StatsProvider({ children }) {
       poolBNBBalance,
       poolGoatBalance,
       [bnbUSDPrice, goatUSDPrice],
+      rewardPerToken,
+      getRewardForDuration
+      
     ] = await Promise.all([
       lpContract.totalSupply(),
       wrappedBNBContract.balanceOf(lpAddress),
       goatContract.balanceOf(lpAddress),
       getCoinUsdPrices(['wbnb', 'goat']),
+      stakingContract.rewardPerToken(),
+      stakingContract.getRewardForDuration()
     ]);
 
 
@@ -272,6 +281,8 @@ export function StatsProvider({ children }) {
     setPoolGoatBalance(Big(poolGoatBalance));
     setBNBUSDPrice(Big(bnbUSDPrice));
     setGoatUSDPrice(Big(goatUSDPrice));
+    setRewardPerToken(Big(rewardPerToken));
+    setRemainingReward(Big(getRewardForDuration));
   };
 
   const loadUserStats = async () => {
@@ -285,10 +296,12 @@ export function StatsProvider({ children }) {
       stakingContract.earned(address)
       // stakingContract.callStatic.updateAccounting(),
     ]);
-    const availableGoatRewards = 0
+    // const availableGoatRewards = totalStakedFor.isZero()
+    // ? '0'
+    // : await stakingContract.callStatic.unstakeQuery(totalStakedFor);
     // setAvailableCakeRewards(Big(availableCakeRewards));
     setTotalStakedFor(Big(totalStakedFor));
-    setAvailableGoatRewards(Big(availableGoatRewards));
+    // setAvailableGoatRewards(Big(availableGoatRewards));
     setTotalStakingShareSeconds(Big(totalStakingShareSeconds));
     setUserStakingShareSeconds(Big(userStakingShareSeconds));
     setTotalUserRewards(Big(totalUserRewards));
@@ -376,11 +389,14 @@ export function StatsProvider({ children }) {
         schedules,
         
 
-        availableGoatRewards,
+        // availableGoatRewards,
         availableCakeRewards,
         totalStakedFor,
         totalStakingShareSeconds,
         userStakingShareSeconds,
+
+        rewardPerToken,
+        getRewardForDuration,
 
         apy,
         hourlyUnlockRate,
@@ -417,11 +433,14 @@ export function useStats() {
     bnbUSDPrice,
     goatUSDPrice,
 
-    availableGoatRewards,
+    // availableGoatRewards,
     availableCakeRewards,
     totalStakedFor,
     totalStakingShareSeconds,
     userStakingShareSeconds,
+
+    rewardPerToken,
+    getRewardForDuration,
 
     apy,
     hourlyUnlockRate,
@@ -448,11 +467,14 @@ export function useStats() {
     bnbUSDPrice,
     goatUSDPrice,
 
-    availableGoatRewards,
+    // availableGoatRewards,
     availableCakeRewards,
     totalStakedFor,
     totalStakingShareSeconds,
     userStakingShareSeconds,
+
+    rewardPerToken,
+    getRewardForDuration,
 
     apy,
     hourlyUnlockRate,
