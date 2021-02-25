@@ -1,7 +1,9 @@
 import React from 'react';
-import { Big, isZero } from '../utils/big-number';
+import { Big, isZero, formatUnits } from '../utils/big-number';
 import { useWallet } from '../contexts/wallet';
 import * as request from '../utils/request';
+
+
 
 const GOAT_APY = Big('144');
 
@@ -41,8 +43,9 @@ export function StatsProvider({ children }) {
   const [bnbUSDPrice, setBNBUSDPrice] = React.useState(Big('0'));
   const [goatUSDPrice, setGoatUSDPrice] = React.useState(Big('0'));
 
+  
+  
   // user
-
   const [availableGoatRewards, setAvailableGoatRewards] = React.useState(
     Big('0')
   );
@@ -58,6 +61,8 @@ export function StatsProvider({ children }) {
     Big('0')
   );
   const [totalUserRewards, setTotalUserRewards] = React.useState(Big('0'));
+
+  
 
   const totalUSDDeposits = React.useMemo(() => {
     if (
@@ -128,6 +133,18 @@ export function StatsProvider({ children }) {
       !schedules.length ? Big('0') : schedules[schedules.length - 1].endAtSec,
     [schedules]
   );
+
+
+  const [rewardEarned, setRewardEarned] = React.useState(0);
+
+  
+  // const rewardEarned = React.useMemo(
+  //   () =>{
+  //     let reward = 0; 
+  //     getEarned().then(result => reward = result)
+  //     return reward;
+  //   }
+  // );
 
   const hourlyUnlockRate = React.useMemo(() => {
     if (!(!isZero(totalLockedShares) && !isZero(totalLocked) && schedules))
@@ -277,9 +294,20 @@ export function StatsProvider({ children }) {
     setTotalUserRewards(Big(totalUserRewards));
   };
 
-  
-  // const [earnedReward, setEarnedReward] = React.useState(0);
-  // const [isLoaded, setIsLoaded] = React.useState(false);
+  const getEarned = async () => {
+    try {
+      const earnedReward = await stakingContract.earned(address);
+      // const totalSupply = await stakingContract.totalSupply();
+      setRewardEarned(formatUnits(earnedReward, goatDecimals, 12));
+      
+      return formatUnits(earnedReward, goatDecimals, 12);
+    } catch (e) {
+      return 0;
+      // getEarned();
+      // useNotifications.showErrorNotification(e);
+    }
+  };
+ 
 
   // const subscribeToPoolStats = () => {
   //   if (!stakingContract) return;
@@ -322,6 +350,10 @@ export function StatsProvider({ children }) {
   ]);
 
   React.useEffect(() => {
+    getEarned();
+  }, [address]);
+
+  React.useEffect(() => {
     loadUserStats();
     // return subscribeToUserStats(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingContract, address]);
@@ -342,6 +374,7 @@ export function StatsProvider({ children }) {
         bnbUSDPrice,
         goatUSDPrice,
         schedules,
+        
 
         availableGoatRewards,
         availableCakeRewards,
@@ -356,9 +389,7 @@ export function StatsProvider({ children }) {
         rewardMultiplier,
         bnbPonusPoolSharePercentage,
         bnbPonusPoolShareAmount,
-
-        // earnedReward,
-        // isLoaded
+        rewardEarned
       }}
     >
       {children}
@@ -399,6 +430,7 @@ export function useStats() {
     rewardMultiplier,
     bnbPonusPoolSharePercentage,
     bnbPonusPoolShareAmount,
+    rewardEarned
   } = context;
 
   return {
@@ -429,6 +461,7 @@ export function useStats() {
     rewardMultiplier,
     bnbPonusPoolSharePercentage,
     bnbPonusPoolShareAmount,
+    rewardEarned
   };
 }
 

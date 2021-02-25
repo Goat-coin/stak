@@ -57,22 +57,23 @@ export default function() {
     bnbPonusPoolSharePercentage,
     bnbPonusPoolShareAmount,
     stakingEndSec,
+    rewardEarned
   } = useStats();
-  const [earnedReward, setEarnedReward] = React.useState(0);
-  const [isLoaded, setIsLoaded] = React.useState(false);
+  // const [earnedReward, setEarnedReward] = React.useState(0);
+  // const [isLoaded, setIsLoaded] = React.useState(false);
 
 
-  const getEarned = async () => {
-    try {
-      const earnedReward = await stakingContract.earned(address);
-      // const totalSupply = await stakingContract.totalSupply();
-      return formatUnits(earnedReward, goatDecimals, 12);
-    } catch (e) {
-      return 0;
-      // getEarned();
-      // useNotifications.showErrorNotification(e);
-    }
-  };
+  // const getEarned = async () => {
+  //   try {
+  //     const earnedReward = await stakingContract.earned(address);
+  //     // const totalSupply = await stakingContract.totalSupply();
+  //     return formatUnits(earnedReward, goatDecimals, 12);
+  //   } catch (e) {
+  //     return 0;
+  //     // getEarned();
+  //     // useNotifications.showErrorNotification(e);
+  //   }
+  // };
 
     
 
@@ -115,7 +116,7 @@ export default function() {
         name: 'Rewards Earned',
         value: [
           <div className="flex items-start flex-wrap">
-            {isLoaded ? `${earnedReward} GOAT` : 'calculating'}
+            {rewardEarned} GOAT 
             <Box ml={1} className="flex items-center">
               <img src="coins/GOAT.png" alt="GOAT" width={15} height={15} />
             </Box>
@@ -135,27 +136,27 @@ export default function() {
           'Amount of GOAT rewards you will receive on claiming.',
       },
     ],
-    // [
-    //   apy,
-    //   availableGoatRewards,
-    //   goatDecimals,
-    //   wrappedBNBDecimals,
-    //   rewardMultiplier,
-    //   bnbPonusPoolShareAmount,
-    //   bnbPonusPoolSharePercentage,
-    //   stakingEndSec,
-    //   classes.small,
-    //   classes.link,
-    // ]
+    [
+      apy,
+      availableGoatRewards,
+      goatDecimals,
+      wrappedBNBDecimals,
+      rewardMultiplier,
+      bnbPonusPoolShareAmount,
+      bnbPonusPoolSharePercentage,
+      stakingEndSec,
+      classes.small,
+      classes.link,
+    ]
   );
 
-  if (!isLoaded && address) {
-    // console.log(address);
-    getEarned().then(response => {
-      setEarnedReward(response);
-      setIsLoaded(true);
-    });
-  }
+  // if (!isLoaded && address) {
+  //   // console.log(address);
+  //   getEarned().then(response => {
+  //     setEarnedReward(response);
+  //     setIsLoaded(true);
+  //   });
+  // }
 
   return (
     <Box className={clsx(classes.container)}>
