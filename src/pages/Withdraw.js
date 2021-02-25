@@ -141,7 +141,8 @@ export default function() {
     onSetWithdrawMaxAmount();
   }, [stakingContract, address]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!isLoaded) {
+  if (!isLoaded && address) {
+    // console.log(address);
     getEarned().then(response => {
       setEarnedReward(response);
       setIsLoaded(true);

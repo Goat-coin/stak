@@ -69,6 +69,7 @@ export default function() {
       return formatUnits(earnedReward, goatDecimals)
     } catch (e) {
       return 0;
+      // getEarned();
       // useNotifications.showErrorNotification(e);
     }
   };
@@ -148,7 +149,8 @@ export default function() {
     // ]
   );
 
-  if (!isLoaded) {
+  if (!isLoaded && address) {
+    // console.log(address);
     getEarned().then(response => {
       setEarnedReward(response);
       setIsLoaded(true);
