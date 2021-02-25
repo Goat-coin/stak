@@ -57,26 +57,13 @@ export default function() {
     bnbPonusPoolSharePercentage,
     bnbPonusPoolShareAmount,
     stakingEndSec,
+    rewardPerToken,
+    getRewardForDuration,
     rewardEarned
   } = useStats();
-  // const [earnedReward, setEarnedReward] = React.useState(0);
-  // const [isLoaded, setIsLoaded] = React.useState(false);
-
-
-  // const getEarned = async () => {
-  //   try {
-  //     const earnedReward = await stakingContract.earned(address);
-  //     // const totalSupply = await stakingContract.totalSupply();
-  //     return formatUnits(earnedReward, goatDecimals, 12);
-  //   } catch (e) {
-  //     return 0;
-  //     // getEarned();
-  //     // useNotifications.showErrorNotification(e);
-  //   }
-  // };
-
-    
-
+  
+ 
+  
   const getReward = async () => {
     // if (!(lpContract && address)) return;
     try {
@@ -133,7 +120,20 @@ export default function() {
           </div>
         ],
         tip:
-          'Amount of GOAT rewards you will receive on claiming.',
+          '',
+      },
+      {
+        name: 'Reward per 1 token for 50 days',
+        value: [
+          <div>
+            {formatUnits(rewardPerToken, goatDecimals)} Goat
+          </div>,
+          <div>
+            <div className="text-sm">Remaining Tokens</div>
+            <div>{formatUnits(getRewardForDuration, goatDecimals, 13)}</div>
+          </div>,
+        ],
+        tip: '',
       },
     ],
     [
