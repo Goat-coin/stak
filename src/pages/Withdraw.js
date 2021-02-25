@@ -53,7 +53,7 @@ export default function() {
     try {
       const earnedReward = await stakingContract.earned(address);
       // const totalSupply = await stakingContract.totalSupply();
-      return formatUnits(earnedReward, goatDecimals)
+      return formatUnits(earnedReward, goatDecimals, 12);
     } catch (e) {
       return 0;
       // useNotifications.showErrorNotification(e);
