@@ -277,6 +277,10 @@ export function StatsProvider({ children }) {
     setTotalUserRewards(Big(totalUserRewards));
   };
 
+  
+  // const [earnedReward, setEarnedReward] = React.useState(0);
+  // const [isLoaded, setIsLoaded] = React.useState(false);
+
   // const subscribeToPoolStats = () => {
   //   if (!stakingContract) return;
   //   const stakedEvent = stakingContract.filters.Stake();
@@ -352,6 +356,9 @@ export function StatsProvider({ children }) {
         rewardMultiplier,
         bnbPonusPoolSharePercentage,
         bnbPonusPoolShareAmount,
+
+        // earnedReward,
+        // isLoaded
       }}
     >
       {children}

@@ -58,18 +58,22 @@ export default function() {
     bnbPonusPoolShareAmount,
     stakingEndSec,
   } = useStats();
+  const [earnedReward, setEarnedReward] = React.useState(0);
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
-    // const getApr = async () => {
-    //   try {
-    //     const rewardRate = await stakingContract.rewardRate();
-    //     const totalSupply = await stakingContract.totalSupply();
-    //     console.log("hello");
-    //     return "hello world";
-    //   } catch (e) {
-    //     console.log("hello");
-    //     // useNotifications.showErrorNotification(e);
-    //   }
-    // };
+
+  const getEarned = async () => {
+    try {
+      const earnedReward = await stakingContract.earned(address);
+      // const totalSupply = await stakingContract.totalSupply();
+      return formatUnits(earnedReward, goatDecimals)
+    } catch (e) {
+      return 0;
+      // useNotifications.showErrorNotification(e);
+    }
+  };
+
+    
 
   const getReward = async () => {
     // if (!(lpContract && address)) return;
@@ -83,8 +87,13 @@ export default function() {
       //   );
       // }
       // setIsDepositing(true);
+      // const rewardRate1 = await stakingContract.rewardRate;
+      // console.log(address);
+      
+      // console.log(rewardRate1)
       
       const tx = await stakingContract.getReward();
+      
       // showTxNotification(`Depositing ${lpName}`, tx.hash);
       await tx.wait();
       // showTxNotification(`Deposited ${lpName}`, tx.hash);
@@ -96,16 +105,16 @@ export default function() {
 
   const stats = React.useMemo(
     () => [
-      {
-        name: 'APR',
-        value: [`${toFixed(apy, 1, 2)}%`],
-        tip: 'APR is estimated for a new deposit over the next reward duration.',
-      },
+      // {
+      //   name: 'APR',
+      //   value: [`${toFixed(apy, 1, 2)}%`],
+      //   tip: 'APR is estimated for a new deposit over the next reward duration.',
+      // },
       {
         name: 'Rewards Earned',
         value: [
           <div className="flex items-start flex-wrap">
-            {formatUnits(availableGoatRewards, goatDecimals)} GOAT
+            {isLoaded ? `${earnedReward} GOAT` : 'calculating'}
             <Box ml={1} className="flex items-center">
               <img src="coins/GOAT.png" alt="GOAT" width={15} height={15} />
             </Box>
@@ -125,19 +134,26 @@ export default function() {
           'Amount of GOAT rewards you will receive on claiming.',
       },
     ],
-    [
-      apy,
-      availableGoatRewards,
-      goatDecimals,
-      wrappedBNBDecimals,
-      rewardMultiplier,
-      bnbPonusPoolShareAmount,
-      bnbPonusPoolSharePercentage,
-      stakingEndSec,
-      classes.small,
-      classes.link,
-    ]
+    // [
+    //   apy,
+    //   availableGoatRewards,
+    //   goatDecimals,
+    //   wrappedBNBDecimals,
+    //   rewardMultiplier,
+    //   bnbPonusPoolShareAmount,
+    //   bnbPonusPoolSharePercentage,
+    //   stakingEndSec,
+    //   classes.small,
+    //   classes.link,
+    // ]
   );
+
+  if (!isLoaded) {
+    getEarned().then(response => {
+      setEarnedReward(response);
+      setIsLoaded(true);
+    });
+  }
 
   return (
     <Box className={clsx(classes.container)}>
