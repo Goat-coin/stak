@@ -52,51 +52,43 @@ export default function() {
   const { goatDecimals, wrappedBNBDecimals, stakingContract, address, lpContract } = useWallet();
   const {
     apy,
-    availableGoatRewards,
     rewardMultiplier,
     bnbPonusPoolSharePercentage,
     bnbPonusPoolShareAmount,
     stakingEndSec,
     rewardPerToken,
-    getRewardForDuration
+    getRewardForDuration,
+    rewardEarned,
+    setRewardEarned
   } = useStats();
   
-  const getApr = async () => {
+  const { showTxNotification, showErrorNotification } = useNotifications();
+ 
+  
+  const getReward = async () => {
+     if (!(lpContract && address)) return;
     try {
-      const rewardRate = await stakingContract.rewardRate;
-      const totalSupply = await stakingContract.totalSupply();
-      console.log("hello");
-      return "hello world";
+      
+      const tx = await stakingContract.getReward();
+      
+      showTxNotification(`Claiming reward`, tx.hash);
+      await tx.wait();
+      showTxNotification(`Reward claimed`, tx.hash);
+      setRewardEarned(0);
+      
     } catch (e) {
-      console.log("hello");
-      // useNotifications.showErrorNotification(e);
+      showErrorNotification(e);
+      throw e;
     }
   };
   
-  const getReward = async () => {
-    // if (!(lpContract && address)) return;
-    try {
-      
-      // if (depositAmount.isZero())
-      //   return showErrorNotification('Enter deposit amount.');
-      // if (!depositMaxAmount && depositAmount.gt(maxDepositAmount)) {
-      //   return showErrorNotification(
-      //     'You are trying to deposit more than your actual balance.'
-      //   );
-      // }
-      // setIsDepositing(true);
-      const tx = await stakingContract.getReward();
-      // showTxNotification(`Depositing ${lpName}`, tx.hash);
-      await tx.wait();
-      // showTxNotification(`Deposited ${lpName}`, tx.hash);
-      // onSetDepositMaxAmount();
-    } catch (e) {
-      // useNotifications.showErrorNotification(e);
-    }
-  };
-
   const stats = React.useMemo(
     () => [
+      // {
+      //   name: 'APR',
+      //   value: [`${toFixed(apy, 1, 2)}%`],
+      //   tip: 'APR is estimated for a new deposit over the next reward duration.',
+      // },
       {
         name: 'Rewards Earned',
         value: [
@@ -139,7 +131,6 @@ export default function() {
     ],
     [
       apy,
-      availableGoatRewards,
       goatDecimals,
       wrappedBNBDecimals,
       rewardMultiplier,
@@ -150,6 +141,14 @@ export default function() {
       classes.link,
     ]
   );
+
+  // if (!isLoaded && address) {
+  //   // console.log(address);
+  //   getEarned().then(response => {
+  //     setEarnedReward(response);
+  //     setIsLoaded(true);
+  //   });
+  // }
 
   return (
     <Box className={clsx(classes.container)}>
